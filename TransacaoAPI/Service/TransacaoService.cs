@@ -85,22 +85,27 @@ namespace GR.TransacaoAPI.Service
         }
 
         readonly Func<TransacaoDtoRequest, Result<Pessoa>, Result<Categoria>, Result<TransacaoDtoResponse>>
-        ValidaTransacao = (transacaoDtoRequest, pessoa, categoria) =>
-        {
-            if (pessoa.IsFailure)
+            ValidaTransacao = (transacaoDtoRequest, pessoa, categoria) =>
             {
-                return Result<TransacaoDtoResponse>.Failure("Falha pessoa não encontrada!");
-            }
+                if (pessoa.IsFailure)
+                {
+                    return Result<TransacaoDtoResponse>.Failure("Falha pessoa não encontrada!");
+                }
 
-            if (pessoa.Objet!.Idade < MAIOR_IDADE && transacaoDtoRequest.Tipo != TipoTransacao.Despesa)
-            {
-                return Result<TransacaoDtoResponse>.Failure("Pessao MENOR DE IDADE apenas Despesas deverão ser aceitas!");
-            }
+                if (categoria.IsFailure)
+                {
+                    return Result<TransacaoDtoResponse>.Failure("Falha categoria não encontrada!");
+                }
 
-            if (((int)categoria.Objet!.Finalidade != (int)transacaoDtoRequest.Tipo) && (transacaoDtoRequest.Tipo != TIPO_AMBOS))
-            {
-                return Result<TransacaoDtoResponse>.Failure("O Tipo da Transação deve ser compatível com a Finalidade da Categoria!");
-            }
+                if (pessoa.Objet!.Idade < MAIOR_IDADE && transacaoDtoRequest.Tipo != TipoTransacao.Despesa)
+                {
+                   return Result<TransacaoDtoResponse>.Failure("Pessao MENOR DE IDADE apenas Despesas deverão ser aceitas!");
+                }
+
+                if (((int)categoria.Objet!.Finalidade != (int)transacaoDtoRequest.Tipo) && (transacaoDtoRequest.Tipo != TIPO_AMBOS))
+                {
+                    return Result<TransacaoDtoResponse>.Failure("O Tipo da Transação deve ser compatível com a Finalidade da Categoria!");
+                }
 
             return Result<TransacaoDtoResponse>.Success(new TransacaoDtoResponse());
         };
