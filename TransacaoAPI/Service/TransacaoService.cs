@@ -38,34 +38,24 @@ namespace GR.TransacaoAPI.Service
                 }
 
                 var pessoa = await _pessaoRepository.GetPessoaByIdAsync(transacaoDtoRequest.PessoaId);
-
-                if (pessoa.IsFailure)
-                {
-                    return Result<TransacaoDtoResponse>.Failure("Falha pessoa não encontrada!");
-                }
-
-                if (ValidaAhFinalidadeDaTransacao(pessoa.Objet!.Idade, transacaoDtoRequest.Tipo))
-                {
-                    return Result<TransacaoDtoResponse>.Failure("Pessao MENOR DE IDADE apenas Despesas deverão ser aceitas!");
-                }
-
                 var categoria = await _categoriaRespository.GetCategoriaByIdAsync(transacaoDtoRequest.CategoriaId);
+                var resultadoValidacao = ValidaTransacao(transacaoDtoRequest, pessoa, categoria);
 
-                if (!ValidaAhCategotiaDaTransacao(categoria.Objet!.Finalidade, transacaoDtoRequest.Tipo))
+                if (!resultadoValidacao.IsFailure)
                 {
-                    return Result<TransacaoDtoResponse>.Failure("O Tipo da Transação deve ser compatível com a Finalidade da Categoria!");
+                    var transacao = _mapper.Map<Transacao>(transacaoDtoRequest);
+                    var result = await _transacaoRepository.CreateAsync(transacao);
+
+                    if (result.IsFailure)
+                    {
+                        return Result<TransacaoDtoResponse>.Failure("Falha ao cadastrar uma Transação!");
+                    }
+
+                    var transacaoDtoResponse = _mapper.Map<TransacaoDtoResponse>(result.Objet);
+                    return Result<TransacaoDtoResponse>.Success(transacaoDtoResponse);
                 }
 
-                var transacao = _mapper.Map<Transacao>(transacaoDtoRequest);
-                var result = await _transacaoRepository.CreateAsync(transacao);
-
-                if (result.IsFailure)
-                {
-                    return Result<TransacaoDtoResponse>.Failure("Falha ao cadastrar uma Transação!");
-                }
-
-                var transacaoDtoResponse = _mapper.Map<TransacaoDtoResponse>(result.Objet);
-                return Result<TransacaoDtoResponse>.Success(transacaoDtoResponse);
+                return resultadoValidacao;
             }
             catch (Exception ex)
             {
@@ -94,14 +84,25 @@ namespace GR.TransacaoAPI.Service
             }
         }
 
-        Func<int, TipoTransacao, bool> ValidaAhFinalidadeDaTransacao = (idadePessoa, tipoTransacao) =>
+        readonly Func<TransacaoDtoRequest, Result<Pessoa>, Result<Categoria>, Result<TransacaoDtoResponse>>
+        ValidaTransacao = (transacaoDtoRequest, pessoa, categoria) =>
         {
-            return (idadePessoa < MAIOR_IDADE && tipoTransacao != TipoTransacao.Despesa);
-        };
+            if (pessoa.IsFailure)
+            {
+                return Result<TransacaoDtoResponse>.Failure("Falha pessoa não encontrada!");
+            }
 
-        Func<FinalidadeCategoria, TipoTransacao, bool> ValidaAhCategotiaDaTransacao = (finalidadeCategoria, tipoTransacao) =>
-        {
-            return (((int)finalidadeCategoria == (int)tipoTransacao) || ((int)tipoTransacao == TIPO_AMBOS));
+            if (pessoa.Objet!.Idade < MAIOR_IDADE && transacaoDtoRequest.Tipo != TipoTransacao.Despesa)
+            {
+                return Result<TransacaoDtoResponse>.Failure("Pessao MENOR DE IDADE apenas Despesas deverão ser aceitas!");
+            }
+
+            if (((int)categoria.Objet!.Finalidade != (int)transacaoDtoRequest.Tipo) && (transacaoDtoRequest.Tipo != TIPO_AMBOS))
+            {
+                return Result<TransacaoDtoResponse>.Failure("O Tipo da Transação deve ser compatível com a Finalidade da Categoria!");
+            }
+
+            return Result<TransacaoDtoResponse>.Success(new TransacaoDtoResponse());
         };
     }
 }
