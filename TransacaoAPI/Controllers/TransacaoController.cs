@@ -60,5 +60,25 @@ namespace GR.TransacaoAPI.Controllers
                 throw new Exception($"Error: {ex.Message} ao listar Transações!");
             }
         }
+
+        [HttpGet("getnetbalance")]
+        public async Task<IActionResult> GetNetBalance(Guid idPessoa)
+        {
+            try
+            {
+                var result = await _transacaoService.GetNetBalance(idPessoa);
+
+                if (result.IsFailure)
+                {
+                    return BadRequest(new { error = result.Error });
+                }
+
+                return Ok(result.Objet);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error: {ex.Message} ao listar Saldo!");
+            }
+        }
     }
 }

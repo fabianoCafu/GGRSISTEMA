@@ -1,4 +1,5 @@
 ﻿using GR.Shared.Infra.Data;
+using GR.Shared.Infra.DTO;
 using GR.Shared.Infra.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -51,6 +52,42 @@ namespace GR.Shared.Infra.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao buscar transações no banco.");
+                throw;
+            }
+        }
+
+        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId)
+        {
+            try
+            {
+                var listaSaldoLiquidoPessoa = await _context.Transacoes!
+                                                            .Where(t => t.PessoaId == pessoaId)
+                                                            .GroupBy(t => new
+                                                            {
+                                                                t.PessoaId,
+                                                                t.Pessoa!.Nome
+                                                            })
+                                                            .Select(g => new SaldoLiquidoDtoResponse
+                                                            {
+                                                                PessoaId = g.Key.PessoaId,
+                                                                Nome = g.Key.Nome,
+
+                                                                TotalReceitas = g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0,
+                                                                TotalDespesas = g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0,
+                                                                Saldo = (g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0) - (g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0)
+                                                            })
+                                                            .ToListAsync();
+
+                if (!listaSaldoLiquidoPessoa.Any())
+                {
+                    return Result<List<SaldoLiquidoDtoResponse>>.Failure("Falha saldo liquido não encontrado!");
+                }
+
+                return Result<List<SaldoLiquidoDtoResponse>>.Success(listaSaldoLiquidoPessoa);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar pessoa no banco.");
                 throw;
             }
         }

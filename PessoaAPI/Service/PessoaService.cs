@@ -114,25 +114,6 @@ namespace GR.PessoaAPI.Service
             }
         }
 
-        //public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId)
-        //{
-        //    try
-        //    {
-        //        var result = await _pessoaRepository.GetNetBalance(pessoaId);
-
-        //        if (result is null)
-        //        {
-        //            return Result<List<SaldoLiquidoDtoResponse>>.Failure("Falha ao listar Saldo!");
-        //        }
-
-        //        return Result<List<SaldoLiquidoDtoResponse>>.Success(result.Objet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Error {ex.Message} ao listar Saldo!");
-        //    }
-        //}
-
         Func<int, bool> naoEhNegativo = idade => idade >= 0;
     }
 }

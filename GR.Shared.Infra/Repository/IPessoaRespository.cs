@@ -9,8 +9,7 @@ namespace GR.Shared.Infra.Repository
         Task<Result<Pessoa>> CreateAsync(Pessoa pessoa);
         Task<Result<bool>> DeleteAsync(Guid idPessoa);
         Task<Result<Pessoa>> GetPessoaByIdAsync(Guid pessoaId);
-        Task<Result<List<Pessoa>>> GetByName(string nomePessoa);
-        //Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId);
+        Task<Result<List<Pessoa>>> GetByName(string nomePessoa); 
         Task<Result<List<Pessoa>>> GetAllAsync();
     }
 }

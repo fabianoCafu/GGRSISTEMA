@@ -7,5 +7,6 @@ namespace GR.TransacaoAPI.Service
     {
         Task<Result<TransacaoDtoResponse>> CreateAsync(TransacaoDtoRequest transacaoDtoRequest);
         Task<Result<List<TransacaoDtoResponse>>> GetAllAsync();
+        Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId);
     }
 }

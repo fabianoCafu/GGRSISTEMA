@@ -7,8 +7,7 @@ namespace GR.PessoaAPI.Service
     {
         Task<Result<PessoaDtoResponse>> CreateAsync(PessoaDtoRequest pessoaDtoRequest);
         Task<Result<bool>> DeleteAsync(Guid idPessoa);
-        Task<Result<List<PessoaDtoResponse>>> GetByName(string nomePessoa);
-        //Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId);
+        Task<Result<List<PessoaDtoResponse>>> GetByName(string nomePessoa); 
         Task<Result<List<PessoaDtoResponse>>> GetAllAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using GR.Shared.Infra.Model;
+﻿using GR.Shared.Infra.DTO;
+using GR.Shared.Infra.Model;
 using static Shared.Result.ResultMessage;
 
 namespace GR.Shared.Infra.Repository
@@ -6,7 +7,7 @@ namespace GR.Shared.Infra.Repository
     public interface ITransacaoRepository
     {
         Task<Result<Transacao>> CreateAsync(Transacao transacao);
-
         Task<Result<List<Transacao>>> GetAllAsync();
+        Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId);
     }
 }
