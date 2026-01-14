@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 export default function Pessoa() {
     const [pessoas, setPessoas] = useState([]);
@@ -9,7 +9,7 @@ export default function Pessoa() {
     const [showModal, setShowModal] = useState(false);
     const [nome, setNome] = useState("");
     const [idade, setIdade] = useState("");
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     useEffect(() => {
        carregarPessoas();
@@ -81,9 +81,9 @@ export default function Pessoa() {
                         <td>{pessoa.idade}</td>
                         <td className="text-center">
                             <div className="d-flex justify-content-center gap-2">
-                                <button className="btn btn-secondary btn-sm" style={{ padding: '3px 8px', fontSize: '13px' }} onClick={() => navigate(`/saldo-liquido/${pessoa.id}`)} >
+                                {/* <button className="btn btn-secondary btn-sm" style={{ padding: '3px 8px', fontSize: '13px' }} onClick={() => navigate(`/saldo-liquido/${pessoa.id}`)} >
                                     Saldo líquido
-                                </button>
+                                </button> */}
                                 <button className="btn btn-danger btn-sm" style={{ padding: '3px 8px', fontSize: '13px' }} onClick={() => removerPessoa(pessoa)}>
                                     Remover
                                 </button>

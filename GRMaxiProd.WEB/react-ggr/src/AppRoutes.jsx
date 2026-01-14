@@ -20,7 +20,11 @@ const AppRoutes = [
     {
         path: '/transacoes',
         element: <Transacao />
-    }
+    },
+    {
+        path: '/saldo-liquido',
+        element: <SaldoLiquido />
+    },
 ];
 
 export default AppRoutes;

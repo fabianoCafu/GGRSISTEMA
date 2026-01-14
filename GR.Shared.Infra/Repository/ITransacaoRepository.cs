@@ -8,6 +8,6 @@ namespace GR.Shared.Infra.Repository
     {
         Task<Result<Transacao>> CreateAsync(Transacao transacao);
         Task<Result<List<Transacao>>> GetAllAsync();
-        Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId);
+        Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance();
     }
 }

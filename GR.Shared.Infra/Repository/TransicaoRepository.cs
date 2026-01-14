@@ -56,34 +56,44 @@ namespace GR.Shared.Infra.Repository
             }
         }
 
-        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId)
+        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance()
         {
             try
             {
-                var listaSaldoLiquidoPessoa = await _context.Transacoes!
-                                                            .Where(t => t.PessoaId == pessoaId)
-                                                            .GroupBy(t => new
-                                                            {
-                                                                t.PessoaId,
-                                                                t.Pessoa!.Nome
-                                                            })
-                                                            .Select(g => new SaldoLiquidoDtoResponse
-                                                            {
-                                                                PessoaId = g.Key.PessoaId,
-                                                                Nome = g.Key.Nome,
+                var listaSaldoLiquido = await _context.Transacoes!
+                                                      .GroupBy(t => new
+                                                      {
+                                                          t.PessoaId,
+                                                          t.Pessoa!.Nome
+                                                      })
+                                                      .Select(g => new SaldoLiquidoDtoResponse
+                                                      {
+                                                          PessoaId = g.Key.PessoaId,
+                                                          Nome = g.Key.Nome,
 
-                                                                TotalReceitas = g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0,
-                                                                TotalDespesas = g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0,
-                                                                Saldo = (g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0) - (g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0)
-                                                            })
-                                                            .ToListAsync();
+                                                          Receitas = g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0,
+                                                          Despesas = g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0,
+                                                          Saldo = (g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0) - (g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0)
+                                                      }).ToListAsync();
 
-                if (!listaSaldoLiquidoPessoa.Any())
+
+                var totalReceitas = listaSaldoLiquido.Sum(x => x.Receitas);
+                var totalDespesas = listaSaldoLiquido.Sum(x => x.Despesas);
+                var totalSaldo = totalReceitas - totalDespesas;
+
+                listaSaldoLiquido.ForEach(x =>
+                {
+                    x.TotalReceitas = totalReceitas;
+                    x.TotalDespesas = totalDespesas;
+                    x.TotalSaldo = totalSaldo;
+                });
+
+                if (!listaSaldoLiquido.Any())
                 {
                     return Result<List<SaldoLiquidoDtoResponse>>.Failure("Falha saldo liquido não encontrado!");
                 }
 
-                return Result<List<SaldoLiquidoDtoResponse>>.Success(listaSaldoLiquidoPessoa);
+                return Result<List<SaldoLiquidoDtoResponse>>.Success(listaSaldoLiquido);
             }
             catch (Exception ex)
             {
@@ -91,5 +101,41 @@ namespace GR.Shared.Infra.Repository
                 throw;
             }
         }
+
+        //public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId)
+        //{
+        //    try
+        //    {
+        //        var listaSaldoLiquidoPessoa = await _context.Transacoes!
+        //                                                    .Where(t => t.PessoaId == pessoaId)
+        //                                                    .GroupBy(t => new
+        //                                                    {
+        //                                                        t.PessoaId,
+        //                                                        t.Pessoa!.Nome
+        //                                                    })
+        //                                                    .Select(g => new SaldoLiquidoDtoResponse
+        //                                                    {
+        //                                                        PessoaId = g.Key.PessoaId,
+        //                                                        Nome = g.Key.Nome,
+
+        //                                                        TotalReceitas = g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0,
+        //                                                        TotalDespesas = g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0,
+        //                                                        Saldo = (g.Where(t => Convert.ToInt32(t.Tipo) == 1).Sum(t => (decimal?)t.Valor) ?? 0) - (g.Where(t => Convert.ToInt32(t.Tipo) == 2).Sum(t => (decimal?)t.Valor) ?? 0)
+        //                                                    })
+        //                                                    .ToListAsync();
+
+        //        if (!listaSaldoLiquidoPessoa.Any())
+        //        {
+        //            return Result<List<SaldoLiquidoDtoResponse>>.Failure("Falha saldo liquido não encontrado!");
+        //        }
+
+        //        return Result<List<SaldoLiquidoDtoResponse>>.Success(listaSaldoLiquidoPessoa);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Erro ao buscar pessoa no banco.");
+        //        throw;
+        //    }
+        //}
     }
 }

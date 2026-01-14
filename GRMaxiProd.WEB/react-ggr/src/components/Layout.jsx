@@ -1,22 +1,7 @@
-// import { Outlet } from 'react-router-dom';
-// import { Menu } from './Menu';
-
-// export default function Layout() {
-//   return (
-//     <>
-//       <Menu />
-//       <div className="container mt-3">
-//         <Outlet />
-//       </div>
-//     </>
-//   );
-// }
-
-
  import React, { Component } from 'react';
  import { Container } from 'reactstrap';
- import { NavMenu } from './NavMenu';
  import { Outlet } from 'react-router-dom';
+ import  NavMenu  from './NavMenu';
 
  export class Layout extends Component {
    static displayName = Layout.name;

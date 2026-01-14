@@ -84,11 +84,11 @@ namespace GR.TransacaoAPI.Service
             }
         }
 
-        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId)
+        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance()
         {
             try
             {
-                var result = await _transacaoRepository.GetNetBalance(pessoaId);
+                var result = await _transacaoRepository.GetNetBalance();
 
                 if (result is null)
                 {
@@ -102,6 +102,25 @@ namespace GR.TransacaoAPI.Service
                 throw new Exception($"Error {ex.Message} ao listar Saldo!");
             }
         }
+
+        //public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId)
+        //{
+        //    try
+        //    {
+        //        var result = await _transacaoRepository.GetNetBalance(pessoaId);
+
+        //        if (result is null)
+        //        {
+        //            return Result<List<SaldoLiquidoDtoResponse>>.Failure("Falha ao listar Saldo!");
+        //        }
+
+        //        return Result<List<SaldoLiquidoDtoResponse>>.Success(result.Objet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Error {ex.Message} ao listar Saldo!");
+        //    }
+        //}
 
         readonly Func<TransacaoDtoRequest, Result<Pessoa>, Result<Categoria>, Result<TransacaoDtoResponse>>
             ValidaTransacao = (transacaoDtoRequest, pessoa, categoria) =>
@@ -129,6 +148,6 @@ namespace GR.TransacaoAPI.Service
             return Result<TransacaoDtoResponse>.Success(new TransacaoDtoResponse());
         };
 
-        static Result<TransacaoDtoResponse> Fail(string mensagem) => Result<TransacaoDtoResponse>.Failure(mensagem); 
+        private static Result<TransacaoDtoResponse> Fail(string mensagem) => Result<TransacaoDtoResponse>.Failure(mensagem); 
     }
 }

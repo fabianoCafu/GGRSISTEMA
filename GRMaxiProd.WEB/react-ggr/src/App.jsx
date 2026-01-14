@@ -18,7 +18,8 @@ function App() {
                         <Route path="/pessoa" element={<Pessoa />} />
                         <Route path="/categoria" element={<Categoria />} />
                         <Route path="/transacao" element={<Transacao />} /> 
-                        <Route path="/saldo-liquido/:idPessoa" element={<SaldoLiquido />} />
+                        <Route path="/saldo-liquido/" element={<SaldoLiquido />} /> 
+                        {/* <Route path="/saldo-liquido/:idPessoa" element={<SaldoLiquido />} /> */}
                     </Route> 
                 </Routes>
                 <ToastContainer position="top-right" autoClose={3000} />

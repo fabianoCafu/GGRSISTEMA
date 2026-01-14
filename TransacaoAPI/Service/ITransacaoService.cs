@@ -6,7 +6,7 @@ namespace GR.TransacaoAPI.Service
     public interface ITransacaoService
     {
         Task<Result<TransacaoDtoResponse>> CreateAsync(TransacaoDtoRequest transacaoDtoRequest);
-        Task<Result<List<TransacaoDtoResponse>>> GetAllAsync();
-        Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId);
+        Task<Result<List<TransacaoDtoResponse>>> GetAllAsync(); 
+        Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance();
     }
 }
