@@ -1,7 +1,7 @@
 import { Pessoa } from "./components/pages/Pessoa";
 import { Categoria } from "./components/pages/Categoria";
 import { Transacao } from "./components/pages/Transacao";
-import { SaldoLiquido } from "./components/pages/Transacao";
+import { SaldoLiquidoPessoa } from "./components/pages/Transacao";
 import { Home } from "./Home";
 
 const AppRoutes = [
@@ -22,8 +22,8 @@ const AppRoutes = [
         element: <Transacao />
     },
     {
-        path: '/saldo-liquido',
-        element: <SaldoLiquido />
+        path: '/saldo-liquido-pessoa',
+        element: <SaldoLiquidoPessoa />
     },
 ];
 

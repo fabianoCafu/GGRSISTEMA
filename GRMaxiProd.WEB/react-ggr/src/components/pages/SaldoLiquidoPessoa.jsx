@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
 
-export default function SaldoLiquido() {
+export default function SaldoLiquidoPessoa() {
     const [saldoLiquidos, setSaldoLiquidos] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -74,7 +73,7 @@ export default function SaldoLiquido() {
   return (
       <div>
           <div className="d-flex justify-content-between align-items-center mb-3">
-              <h1>Saldo Líquido</h1>
+              <h1>Saldo Líquido por Pessoa</h1>
           </div>
           {loading ? (
               <div className="position-fixed top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-white bg-opacity-75">

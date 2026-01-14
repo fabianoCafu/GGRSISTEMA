@@ -36,12 +36,12 @@ const NavMenu = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink tag={Link} className="dropdown-item" to="/saldo-liquido">
+                                    <NavLink tag={Link} className="dropdown-item" to="/saldo-liquido-pessoa">
                                         Saldo Liquído Pessoas
                                     </NavLink>
                                 </li>
                                  <li>
-                                    <NavLink tag={Link} className="dropdown-item" to="/saldo-liquido">
+                                    <NavLink tag={Link} className="dropdown-item" to="/saldo-liquido-categorai">
                                         Saldo Liquído Categorias
                                     </NavLink>
                                 </li>

@@ -39,14 +39,20 @@ namespace GR.Shared.Infra.Repository
         {
             try
             {
-                var pessoaEntity = await _context.Pessoas!.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idPessoa);
+                var pessoa = await _context.Pessoas!.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idPessoa);
+                var transacoes = _context.Transacoes!.AsNoTracking().Where(t => t.Pessoa!.Id == idPessoa);
 
-                if (pessoaEntity is null)
+                if (pessoa is null)
                 {
                     return Result<bool>.Failure("Falha pessoa não encontrada!");
                 }
 
-                _context.Pessoas!.Remove(pessoaEntity);
+                if (transacoes.Any())
+                {
+                    _context.Transacoes!.RemoveRange(transacoes);
+                }
+
+                _context.Pessoas!.Remove(pessoa);
                 await _context.SaveChangesAsync();
 
                 return Result<bool>.Success(true);
@@ -99,7 +105,7 @@ namespace GR.Shared.Infra.Repository
         {
             try
             {
-                var pessoa = await _context.Pessoas!.AsNoTracking().FirstOrDefaultAsync(p => p.Id == pessoaId);
+                var pessoa  = await _context.Pessoas!.AsNoTracking().FirstOrDefaultAsync(p => p.Id == pessoaId);
                 return Result<Pessoa>.Success(pessoa);
             }
             catch (Exception ex)

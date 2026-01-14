@@ -80,10 +80,7 @@ export default function Pessoa() {
                         <td>{pessoa.nome}</td>
                         <td>{pessoa.idade}</td>
                         <td className="text-center">
-                            <div className="d-flex justify-content-center gap-2">
-                                {/* <button className="btn btn-secondary btn-sm" style={{ padding: '3px 8px', fontSize: '13px' }} onClick={() => navigate(`/saldo-liquido/${pessoa.id}`)} >
-                                    Saldo líquido
-                                </button> */}
+                            <div className="d-flex justify-content-center gap-2"> 
                                 <button className="btn btn-danger btn-sm" style={{ padding: '3px 8px', fontSize: '13px' }} onClick={() => removerPessoa(pessoa)}>
                                     Remover
                                 </button>
