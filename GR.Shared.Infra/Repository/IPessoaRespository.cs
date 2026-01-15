@@ -1,5 +1,4 @@
-﻿using GR.Shared.Infra.DTO;
-using GR.Shared.Infra.Model;
+﻿using GR.Shared.Infra.Model;
 using static Shared.Result.ResultMessage;
 
 namespace GR.Shared.Infra.Repository

@@ -9,7 +9,6 @@ namespace GR.Shared.Infra.DTO
         public Guid Id { get; init; }
         public string? Descricao { get; set; }
         public FinalidadeCategoria Finalidade { get; set; }
-
         public DateTime DataCriacaoRegistro { get; init; }
     }
 }

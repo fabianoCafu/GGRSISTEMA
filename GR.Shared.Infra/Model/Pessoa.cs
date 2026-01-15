@@ -3,15 +3,10 @@
     public class Pessoa
     {
         public Guid Id { get; init; }
-
         public string? Nome { get; set; }
-
         public int Idade { get; set; }
-
         public DateTime DataCriacaoRegistro { get; init; }
-
         public ICollection<Transacao> Transacoes { get; set; }
-
         public Pessoa() 
         {
             Id = Guid.NewGuid();

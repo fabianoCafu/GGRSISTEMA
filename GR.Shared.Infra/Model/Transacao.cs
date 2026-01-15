@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using static Shared.Aplication.Enum.Enums;
+﻿using static Shared.Aplication.Enum.Enums;
 
 namespace GR.Shared.Infra.Model
 {

@@ -6,7 +6,6 @@ namespace GR.Shared.Infra.DTO
     {
         [Required]
         public string? Nome { get; set; }
-
         [Required]
         public int Idade { get; set; }
     }

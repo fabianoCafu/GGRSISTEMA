@@ -7,9 +7,7 @@ namespace GR.Shared.Infra.DTO
     {
         [Required]
         public string? Descricao { get; set; }
-
         [Required]
-
         public FinalidadeCategoria? Finalidade { get; set; } = null;
     }
 }
