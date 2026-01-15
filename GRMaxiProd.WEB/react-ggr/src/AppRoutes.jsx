@@ -25,6 +25,10 @@ const AppRoutes = [
         path: '/saldo-liquido-pessoa',
         element: <SaldoLiquidoPessoa />
     },
+    {
+        path: '/saldo-liquido-categoria',
+        element: <SaldoLiquidoCategoria />
+    },
 ];
 
 export default AppRoutes;

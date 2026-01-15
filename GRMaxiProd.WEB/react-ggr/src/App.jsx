@@ -6,6 +6,7 @@ import Pessoa from "./components/pages/Pessoa";
 import Categoria  from './components/pages/Categoria';
 import Transacao  from './components/pages/Transacao';
 import SaldoLiquidoPessoa  from "./components/pages/SaldoLiquidoPessoa";
+import SaldoLiquidoCategoria  from "./components/pages/SaldoLiquidoCategoria";
 import "react-toastify/dist/ReactToastify.css";
 import './custom.css';
 
@@ -19,7 +20,7 @@ function App() {
                         <Route path="/categoria" element={<Categoria />} />
                         <Route path="/transacao" element={<Transacao />} /> 
                         <Route path="/saldo-liquido-pessoa/" element={<SaldoLiquidoPessoa />} /> 
-                        {/* <Route path="/saldo-liquido/:idPessoa" element={<SaldoLiquido />} /> */}
+                        <Route path="/saldo-liquido-categoria/" element={<SaldoLiquidoCategoria />} />
                     </Route> 
                 </Routes>
                 <ToastContainer position="top-right" autoClose={3000} />

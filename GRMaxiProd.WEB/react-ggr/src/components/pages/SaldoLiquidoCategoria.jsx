@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function SaldoLiquidoPessoa() {
+export default function SaldoLiquidoCaterogia() {
     const [saldoLiquidos, setSaldoLiquidos] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -10,7 +10,7 @@ export default function SaldoLiquidoPessoa() {
 
     async function carregarSaldosLiquido() { 
         try {
-            const response = await fetch('https://localhost:7070/api/v1/Transacao/getnetbalanceperson');
+            const response = await fetch('https://localhost:7070/api/v1/Transacao/getnetbalancecategory');
             const data = await response.json();
             setSaldoLiquidos(data);
         } catch (error) {
@@ -25,7 +25,7 @@ export default function SaldoLiquidoPessoa() {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nome</th>
+                        <th>Descrição</th>
                         <th className="text-end">Receita</th>
                         <th className="text-end">Despesa</th>
                         <th className="text-end">Saldo</th>
@@ -35,7 +35,7 @@ export default function SaldoLiquidoPessoa() {
                     {saldoLiquidos && saldoLiquidos.length > 0 ? (
                         <>
                             {saldoLiquidos.map((saldo) => (
-                            <tr key={saldo.pessoaId}>
+                            <tr key={saldo.categoriaId}>
                                 <td>{saldo.nome}</td>
                                 <td align="right">{saldo.receitas}</td>
                                 <td align="right">{saldo.despesas}</td>
@@ -73,7 +73,7 @@ export default function SaldoLiquidoPessoa() {
   return (
       <div>
           <div className="d-flex justify-content-between align-items-center mb-3">
-              <h1>Saldo por Pessoa</h1>
+              <h1>Saldo por Categoria</h1>
           </div>
           {loading ? (
               <div className="position-fixed top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-white bg-opacity-75">

@@ -61,12 +61,12 @@ namespace GR.TransacaoAPI.Controllers
             }
         }
 
-        [HttpGet("getnetbalance")]
-        public async Task<IActionResult> GetNetBalance()
+        [HttpGet("getnetbalanceperson")]
+        public async Task<IActionResult> GetNetBalancePerson()
         {
             try
             {
-                var result = await _transacaoService.GetNetBalance();
+                var result = await _transacaoService.GetNetBalancePerson();
 
                 if (result.IsFailure)
                 {
@@ -81,24 +81,24 @@ namespace GR.TransacaoAPI.Controllers
             }
         }
 
-        //[HttpGet("getnetbalance")]
-        //public async Task<IActionResult> GetNetBalance(Guid idPessoa)
-        //{
-        //    try
-        //    {
-        //        var result = await _transacaoService.GetNetBalance(idPessoa);
+        [HttpGet("getnetbalancecategory")]
+        public async Task<IActionResult> GetNetBalanceCategory()
+        {
+            try
+            {
+                var result = await _transacaoService.GetNetBalanceCategory();
 
-        //        if (result.IsFailure)
-        //        {
-        //            return BadRequest(new { error = result.Error });
-        //        }
+                if (result.IsFailure)
+                {
+                    return BadRequest(new { error = result.Error });
+                }
 
-        //        return Ok(result.Objet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Error: {ex.Message} ao listar Saldo!");
-        //    }
-        //}
+                return Ok(result.Objet);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error: {ex.Message} ao listar Saldo!");
+            }
+        }
     }
 }

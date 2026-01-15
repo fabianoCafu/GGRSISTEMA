@@ -3,6 +3,7 @@
     public class SaldoLiquidoDtoResponse
     {
         public Guid PessoaId { get; set; }
+        public Guid CategoriaId { get; set; }
         public string ?Nome { get; set; }
         public decimal Receitas { get; set; }
         public decimal Despesas { get; set; }

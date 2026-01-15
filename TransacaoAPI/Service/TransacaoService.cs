@@ -84,11 +84,11 @@ namespace GR.TransacaoAPI.Service
             }
         }
 
-        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance()
+        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalancePerson()
         {
             try
             {
-                var result = await _transacaoRepository.GetNetBalance();
+                var result = await _transacaoRepository.GetNetBalancePerson();
 
                 if (result is null)
                 {
@@ -103,24 +103,24 @@ namespace GR.TransacaoAPI.Service
             }
         }
 
-        //public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalance(Guid pessoaId)
-        //{
-        //    try
-        //    {
-        //        var result = await _transacaoRepository.GetNetBalance(pessoaId);
+        public async Task<Result<List<SaldoLiquidoDtoResponse>>> GetNetBalanceCategory()
+        {
+            try
+            {
+                var result = await _transacaoRepository.GetNetBalanceCategory();
 
-        //        if (result is null)
-        //        {
-        //            return Result<List<SaldoLiquidoDtoResponse>>.Failure("Falha ao listar Saldo!");
-        //        }
+                if (result is null)
+                {
+                    return Result<List<SaldoLiquidoDtoResponse>>.Failure("Falha ao listar Saldo!");
+                }
 
-        //        return Result<List<SaldoLiquidoDtoResponse>>.Success(result.Objet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Error {ex.Message} ao listar Saldo!");
-        //    }
-        //}
+                return Result<List<SaldoLiquidoDtoResponse>>.Success(result.Objet);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error {ex.Message} ao listar Saldo!");
+            }
+        }
 
         readonly Func<TransacaoDtoRequest, Result<Pessoa>, Result<Categoria>, Result<TransacaoDtoResponse>>
             ValidaTransacao = (transacaoDtoRequest, pessoa, categoria) =>
