@@ -57,8 +57,9 @@ Boas práticas em .NET e React.
 - Formato:
 Você deve subir o código-fonte da sua solução para um repositório no GitHub e nos enviar o link no campo abaixo.
 Observações:
-Solicitamos gentilmente que quaisquer referências à Maxiprod sejam removidas de todos os arquivos antes da publicação.
+Solicitamos gentilmente que quaisquer referências à Organização sejam removidas de todos os arquivos antes da publicação.
 Caso se sinta à vontade, pode-se implementar recursos adicionais desde que os mesmos não afetem o funcionamento dos já especificados nesse formulário.
 
  
+
 
