@@ -1,4 +1,4 @@
-﻿# GGRSISTEMA - Gestão de Gastos Residências 
+﻿# GGR SISTEMA - Gestão de Gastos Residências 
 Teste técnico - Desenvolvedor Full Stack
 
 - Objetivo:
@@ -61,6 +61,7 @@ Solicitamos gentilmente que quaisquer referências à Organização sejam removi
 Caso se sinta à vontade, pode-se implementar recursos adicionais desde que os mesmos não afetem o funcionamento dos já especificados nesse formulário.
 
  
+
 
 
 
