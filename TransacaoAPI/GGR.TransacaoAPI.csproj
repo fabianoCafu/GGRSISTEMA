@@ -24,9 +24,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\CategoriaAPI\GR.CategoriaAPI.csproj" />
-	  <ProjectReference Include="..\GR.Shared.Infra\GR.Shared.Infra.csproj" />
-	  <ProjectReference Include="..\PessoaAPI\GR.PessoaAPI.csproj" />
+	  <ProjectReference Include="..\CategoriaAPI\GGR.CategoriaAPI.csproj" />
+	  <ProjectReference Include="..\GGR.Shared.Infra\GGR.Shared.Infra.csproj" />
+	  <ProjectReference Include="..\PessoaAPI\GGR.PessoaAPI.csproj" />
 	  <ProjectReference Include="..\Shared.Aplication.Enum\Shared.Aplication.Enum.csproj" />
 	  <ProjectReference Include="..\Shared.Result\Shared.Result.csproj" />
 	</ItemGroup>

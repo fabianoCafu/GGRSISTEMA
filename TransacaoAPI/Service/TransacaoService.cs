@@ -10,7 +10,7 @@ namespace GR.TransacaoAPI.Service
     public class TransacaoService : ITransacaoService
     {
         private readonly ITransacaoRepository _transacaoRepository;
-        private readonly IPessoaRespository _pessaoRepository;
+        private readonly IPessoaRespository _pessoaRepository;
         private readonly ICategoriaRepository _categoriaRespository;
         private readonly IMapper _mapper;
         public const int MAIOR_IDADE = 18;
@@ -18,12 +18,12 @@ namespace GR.TransacaoAPI.Service
 
         public TransacaoService(
             ITransacaoRepository transacaoRepository,
-            IPessoaRespository pessaoRepository,
+            IPessoaRespository pessoaRepository,
             ICategoriaRepository categoriaRespository,
             IMapper mapper)
         {
             _transacaoRepository = transacaoRepository ?? throw new ArgumentNullException(nameof(transacaoRepository));
-            _pessaoRepository = pessaoRepository ?? throw new ArgumentNullException(nameof(pessaoRepository));
+            _pessoaRepository = pessoaRepository ?? throw new ArgumentNullException(nameof(pessoaRepository));
             _categoriaRespository = categoriaRespository ?? throw new ArgumentNullException(nameof(categoriaRespository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
@@ -37,7 +37,7 @@ namespace GR.TransacaoAPI.Service
                     return Result<TransacaoDtoResponse>.Failure("Falha a transacaoDtoRequest deve ser diferente de null!");
                 }
 
-                var pessoa = await _pessaoRepository.GetPessoaByIdAsync(transacaoDtoRequest.PessoaId);
+                var pessoa = await _pessoaRepository.GetPessoaByIdAsync(transacaoDtoRequest.PessoaId);
                 var categoria = await _categoriaRespository.GetCategoriaByIdAsync(transacaoDtoRequest.CategoriaId);
                 var resultadoValidaTransacao = ValidaTransacao(transacaoDtoRequest, pessoa, categoria);
 
@@ -137,7 +137,7 @@ namespace GR.TransacaoAPI.Service
 
             if (pessoa.Objet!.Idade < MAIOR_IDADE && transacaoDtoRequest.Tipo != TipoTransacao.Despesa)
             {
-                return Fail("Pessao MENOR DE IDADE apenas Despesas deverão ser aceitas!");
+                return Fail("Pessoa MENOR DE IDADE apenas Despesas deverão ser aceitas!");
             }
 
             if (((int)categoria.Objet!.Finalidade != (int)transacaoDtoRequest.Tipo) && (transacaoDtoRequest.Tipo != TIPO_AMBOS))

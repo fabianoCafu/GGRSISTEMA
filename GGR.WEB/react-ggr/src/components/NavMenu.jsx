@@ -15,7 +15,7 @@ const NavMenu = () => {
         <header>
             <Navbar className="navbar-expand-sm navbar-toggleable-sm bg-white border-bottom box-shadow mb-3" container light>
             <NavbarBrand tag={Link} to="/">
-                Sistema GGR
+                GGR - Sistema
             </NavbarBrand>
             <NavbarToggler onClick={toggleNavbar} className="me-2" />
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar >
@@ -48,15 +48,15 @@ const NavMenu = () => {
                             </ul>
                         </li>
                         <NavItem>
-                            <NavLink tag={Link} className="text-dark" to="/categoria">
-                                Listar Categorias
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
                             <NavLink tag={Link} className="text-dark" to="/transacao">
                                 Transações
                             </NavLink>
                         </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} className="text-dark" to="/categoria">
+                                Listar Categorias
+                            </NavLink>
+                        </NavItem> 
                     </ul>
                 </Collapse>
             </Navbar>

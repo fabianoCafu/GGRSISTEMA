@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { SelectPessoa } from "../SelectPessoa";
 import { SelectCategoria } from "../SelectCategoria";
@@ -8,11 +8,11 @@ const tipoTransacao = { 0: "Ambos", 1: "Receita", 2: "Despesa", };
 export default function Transacao() {
     const [transacoes, setTransacoes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false);
-    const [pessoaId, setPessoaId] = useState(null);
-    const [categoriaId, setCategoriaId] = useState(null);
-    const [valor, setValor] = useState("");
-    const [tipo, setTipo] = useState(0);
+    const [showModal, setShowModal] = useState(false); 
+    const pessoaRef = useRef(null);
+    const categoriaRef = useRef(null);
+    const valorRef = useRef(null);
+    const tipoRef = useRef(null);
 
     useEffect(() => {
         carregarTransacoes();
@@ -26,60 +26,56 @@ export default function Transacao() {
     }
 
     function selecionarPessoa(opcao) {
-        if (!opcao) 
-        {
-            return;
-        } 
-        setPessoaId(opcao.value);
+        pessoaRef.current = opcao; 
     }
 
     function selecionarCategoria(opcao) {
-        if (!opcao) 
-        {
-            return;
-        }
-        setCategoriaId(opcao.value);
+        categoriaRef.current = opcao;
     }
-
+  
     async function salvarTransacao() {
-        if (!pessoaId || !categoriaId || !valor) {
-            toast.warning("Preencha todos os campos obrigatórios.", {
+        const pessoa = pessoaRef.current;
+        const categoria = categoriaRef.current;
+        const valor = valorRef.current?.value;
+        const tipo = Number(tipoRef.current?.value);
+
+        if (!pessoa || !categoria || !valor || tipo === 0) {
+            toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
             return;
         }
 
-        const response = await fetch( "https://localhost:7070/api/v1/Transacao/create",
+        const response = await fetch("https://localhost:7070/api/v1/Transacao/create",
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                pessoaId,
-                categoriaId,
+                pessoaId: pessoa.value,
+                categoriaId: categoria.value,
                 valor: Number(valor),
                 tipo,
             }),
-        }
-    );
-
-    if (!response.ok) {
-        const data = await response.json();
-        toast.warning(data?.error || "Erro ao salvar transação", {
-            style: { background: "#ffc107", color: "#000" },
-            position: "bottom-right",
         });
-        return;
+
+        if (!response.ok) {
+            const data = await response.json();
+            toast.warning(data?.error || "Erro ao salvar transação", {
+                style: { background: "#ffc107", color: "#000" },
+                position: "bottom-right",
+            });
+            return;
+        }
+
+        setShowModal(false);
+        valorRef.current.value = "";
+        tipoRef.current.value = 0;
+        pessoaRef.current = null;
+        categoriaRef.current = null;
+
+        carregarTransacoes();
     }
-
-    setShowModal(false);
-    setPessoaId(null);
-    setCategoriaId(null);
-    setValor("");
-    setTipo(0);
-
-    carregarTransacoes();
-  }
 
   function renderTabela() {
       return (
@@ -141,11 +137,11 @@ export default function Transacao() {
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Valor *</label>
-                              <input type="number" className="form-control" value={valor} onChange={(e) => setValor(e.target.value)}/>
+                              <input type="number" className="form-control" ref={valorRef} />
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Tipo *</label>
-                              <select className="form-select" value={tipo} onChange={(e) => setTipo(Number(e.target.value))}>
+                              <select className="form-select" ref={tipoRef} >
                                   <option value={0}>- Selecione -</option>
                                   <option value={1}>Receita</option>
                                   <option value={2}>Despesa</option>

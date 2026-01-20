@@ -1,15 +1,14 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-//import { useNavigate } from "react-router-dom";
 
 export default function Pessoa() {
     const [pessoas, setPessoas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [nome, setNome] = useState("");
-    const [idade, setIdade] = useState("");
-    //const navigate = useNavigate();
+
+    const nomeRef = useRef(null);
+    const idadeRef = useRef(null);
 
     useEffect(() => {
        carregarPessoas();
@@ -23,23 +22,40 @@ export default function Pessoa() {
     }
 
     async function salvarPessoa() {
-        if (!nome.trim() || !idade || idade <= 0) {
-            toast.warning("Preencha todos os campos obrigatórios.", { 
+        const nome = nomeRef.current;
+        const idade = idadeRef.current;
+        
+        if (!nome || !idade) {
+            toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
             return;
         }
 
-        await fetch("https://localhost:7143/api/v1/Pessoa/create", { 
-            method: "POST", 
+        const response = await fetch("https://localhost:7143/api/v1/Pessoa/create",
+        {
+            method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nome, idade }),
+            body: JSON.stringify({
+                nome: nome.value,
+                idade: idade.value, 
+            }),
         });
 
+        if (!response.ok) {
+            const data = await response.json();
+            toast.warning(data?.error || "Erro ao salvar transação", {
+                style: { background: "#ffc107", color: "#000" },
+                position: "bottom-right",
+            });
+            return;
+        }
+
         setShowModal(false);
-        setNome("");
-        setIdade("");
+        nomeRef.current.value = "";
+        idadeRef.current.value = "";
+
         carregarPessoas();
     }
 
@@ -120,11 +136,11 @@ export default function Pessoa() {
                           <div className="modal-body">
                               <div className="mb-3">
                                   <label className="form-label">Nome *</label>
-                                  <input className="form-control mb-2" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)}/>
+                                  <input className="form-control mb-2" placeholder="Nome" ref={nomeRef}/>
                               </div>
                               <div className="mb-3">
                                   <label className="form-label">Idade *</label>
-                                  <input type="number" className="form-control" placeholder="Idade" value={idade} onChange={(e) => setIdade(e.target.value)}/>
+                                  <input type="number" className="form-control" placeholder="Idade" ref={idadeRef} />
                               </div>  
                           </div>
                           <div className="modal-footer">

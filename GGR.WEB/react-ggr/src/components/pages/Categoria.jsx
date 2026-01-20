@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 const finalidadeLabel = { 1: "Receita", 2: "Despesa", 3: "Ambas"};
@@ -7,8 +7,8 @@ export default function Categoria() {
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [descricao, setDescricao] = useState("");
-    const [finalidade, setFinalidade] = useState(1);
+    const descricaoRef = useRef(null);
+    const finalidadeRef = useRef(null);
 
     useEffect(() => {
         carregarCategorias();
@@ -22,23 +22,39 @@ export default function Categoria() {
     }
 
     async function salvarCategoria() {
-        if (!descricao.trim() || finalidade === undefined) {
-            toast.warning("Preencha todos os campos obrigatórios.", {
+        const descricao = descricaoRef.current?.value;
+        const finalidade = finalidadeRef.current?.value;
+        
+        if (!descricao || !finalidade) {
+            toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
             return;
         }
 
-        await fetch("https://localhost:7188/api/v1/Categoria/create", {
+        const response = await fetch("https://localhost:7188/api/v1/Categoria/create",
+        {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ descricao, finalidade }),
+            body: JSON.stringify({
+                descricao: descricao.value,
+                finalidade: Number(finalidade?.value)
+            }),
         });
 
+        if (!response.ok) {
+            const data = await response.json();
+            toast.warning(data?.error || "Erro ao salvar transação", {
+                style: { background: "#ffc107", color: "#000" },
+                position: "bottom-right",
+            });
+            return;
+        }
+
         setShowModal(false);
-        setDescricao("");
-        setFinalidade(1);
+        descricaoRef.current.value = "";
+        finalidadeRef.current.value = 1;
         carregarCategorias();
     }
 
@@ -92,11 +108,11 @@ export default function Categoria() {
                         <div className="modal-body">
                             <div className="mb-3">
                                 <label className="form-label">Descrição *</label>
-                                <input type="text" className="form-control" value={descricao} onChange={(e) => setDescricao(e.target.value)}/>
+                                <input type="text" className="form-control" ref={descricaoRef}/>
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Finalidade *</label>
-                                <select className="form-select" value={finalidade} onChange={(e) => setFinalidade(Number(e.target.value))}>
+                                <select className="form-select" ref={finalidadeRef} >
                                     <option value={0}>- Selecione -</option>
                                     <option value={1}>Receita</option>
                                     <option value={2}>Despesa</option>

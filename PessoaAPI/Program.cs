@@ -37,7 +37,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "GR PessoaAPI", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "GGR PessoaAPI", Version = "v1" });
 });
 
 builder.Services.AddControllers();

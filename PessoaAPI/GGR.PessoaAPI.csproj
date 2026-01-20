@@ -4,23 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>5c636b0a-2abd-492e-8906-a496e10a96c6</UserSecretsId>
+    <UserSecretsId>0322c3a4-f4a5-42d2-8130-9d68f504a243</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="DTO\**" />
-    <Compile Remove="Model\**" />
-    <Compile Remove="Repository\**" />
     <Content Remove="DTO\**" />
-    <Content Remove="Model\**" />
-    <Content Remove="Repository\**" />
     <EmbeddedResource Remove="DTO\**" />
-    <EmbeddedResource Remove="Model\**" />
-    <EmbeddedResource Remove="Repository\**" />
     <None Remove="DTO\**" />
-    <None Remove="Model\**" />
-    <None Remove="Repository\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,26 +20,20 @@
 	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
 	  <PackageReference Include="EntityFramework" Version="6.5.1" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-	  <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0" /> 
+	  <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
 	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.5" />
 	  <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.5" />
-	  <!--<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
-		  <PrivateAssets>all</PrivateAssets>
-	  </PackageReference>-->
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0"> 
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference> 
+	  </PackageReference>
   </ItemGroup>
-
-	<!--<MSBuildProjectExtensionsPath>...</MSBuildProjectExtensionsPath>
-	<BaseIntermediateOutputPath>...</BaseIntermediateOutputPath>-->
-
-  <ItemGroup>
-    <ProjectReference Include="..\GR.Shared.Infra\GR.Shared.Infra.csproj" />
-    <ProjectReference Include="..\Shared.Aplication.Enum\Shared.Aplication.Enum.csproj" />
-    <ProjectReference Include="..\Shared.Result\Shared.Result.csproj" />
-  </ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\GGR.Shared.Infra\GGR.Shared.Infra.csproj" />
+	  <ProjectReference Include="..\Shared.Aplication.Enum\Shared.Aplication.Enum.csproj" />
+	  <ProjectReference Include="..\Shared.Result\Shared.Result.csproj" />
+	</ItemGroup>
 
 </Project>
