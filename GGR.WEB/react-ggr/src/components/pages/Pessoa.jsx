@@ -6,7 +6,6 @@ export default function Pessoa() {
     const [pessoas, setPessoas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-
     const nomeRef = useRef(null);
     const idadeRef = useRef(null);
 
@@ -45,7 +44,7 @@ export default function Pessoa() {
 
         if (!response.ok) {
             const data = await response.json();
-            toast.warning(data?.error || "Erro ao salvar transação", {
+            toast.warning(data?.error || "Erro ao salvar Pessoa", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
@@ -55,6 +54,11 @@ export default function Pessoa() {
         setShowModal(false);
         nomeRef.current.value = "";
         idadeRef.current.value = "";
+        
+        toast.success("Pessoa cadastrada com  Sucesso!", {
+            style: { background: "#00FF7F", color: "#000000" },
+            position: "bottom-right",
+        });
 
         carregarPessoas();
     }

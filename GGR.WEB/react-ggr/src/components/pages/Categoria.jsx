@@ -20,7 +20,7 @@ export default function Categoria() {
         setCategorias(data);
         setLoading(false);
     }
-    
+
     async function salvarCategoria() {
         const descricao = descricaoRef.current?.value.trim();
         const finalidade = Number(finalidadeRef.current?.value);
@@ -55,6 +55,12 @@ export default function Categoria() {
         setShowModal(false);
         descricaoRef.current.value = "";
         finalidadeRef.current.value = 1;
+
+        toast.success("Categoria cadastrada com Sucesso!", {
+            style: { background: "#00FF7F", color: "#000000" },
+            position: "bottom-right",
+        });
+
         carregarCategorias();
     }
 
