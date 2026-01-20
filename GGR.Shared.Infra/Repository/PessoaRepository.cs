@@ -40,12 +40,13 @@ namespace GR.Shared.Infra.Repository
             try
             {
                 var pessoa = await _context.Pessoas!.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idPessoa);
-                var transacoes = _context.Transacoes!.AsNoTracking().Where(t => t.Pessoa!.Id == idPessoa);
-
+                
                 if (pessoa is null)
                 {
                     return Result<bool>.Failure("Falha pessoa não encontrada!");
                 }
+
+                var transacoes = _context.Transacoes!.AsNoTracking().Where(t => t.Pessoa!.Id == idPessoa);
 
                 if (transacoes.Any())
                 {
