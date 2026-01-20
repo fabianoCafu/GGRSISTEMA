@@ -20,12 +20,12 @@ export default function Categoria() {
         setCategorias(data);
         setLoading(false);
     }
-
+    
     async function salvarCategoria() {
-        const descricao = descricaoRef.current?.value;
-        const finalidade = finalidadeRef.current?.value;
-        
-        if (!descricao || !finalidade) {
+        const descricao = descricaoRef.current?.value.trim();
+        const finalidade = Number(finalidadeRef.current?.value);
+
+        if (!descricao || finalidade === 0) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
@@ -33,19 +33,19 @@ export default function Categoria() {
             return;
         }
 
-        const response = await fetch("https://localhost:7188/api/v1/Categoria/create",
+        const response = await fetch('https://localhost:7188/api/v1/Categoria/create',
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                descricao: descricao.value,
-                finalidade: Number(finalidade?.value)
+                descricao: descricao,
+                finalidade: finalidade
             }),
         });
 
         if (!response.ok) {
             const data = await response.json();
-            toast.warning(data?.error || "Erro ao salvar transação", {
+            toast.warning(data?.error || "Erro ao salvar categoria", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
