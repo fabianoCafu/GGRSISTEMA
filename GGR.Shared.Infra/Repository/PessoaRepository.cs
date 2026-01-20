@@ -107,6 +107,12 @@ namespace GR.Shared.Infra.Repository
             try
             {
                 var pessoa  = await _context.Pessoas!.AsNoTracking().FirstOrDefaultAsync(p => p.Id == pessoaId);
+
+                if (pessoa is null)
+                {
+                    return Result<Pessoa>.Failure("Falha pessoa não encontrada!");
+                }
+
                 return Result<Pessoa>.Success(pessoa);
             }
             catch (Exception ex)
