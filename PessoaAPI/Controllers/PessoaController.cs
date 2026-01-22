@@ -97,7 +97,7 @@ namespace GR.PessoaAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error: {ex.Message} ao listar Pessoas!");
+                throw new Exception($"Error: {ex.Message} ao buscar Pessoa pelo Nome!");
             }
         }
     }
