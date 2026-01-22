@@ -22,15 +22,12 @@ namespace GR.PessoaAPI.Service
         public async  Task<Result<PessoaDtoResponse>> CreateAsync(PessoaDtoRequest pessoaDtoRequest)
         {
             try
-            {
-                if (pessoaDtoRequest is null)
-                {
-                    return Result<PessoaDtoResponse>.Failure("Falha a pessoaDtoRequest deve ser diferente de null!");
-                }
+            { 
+                var resultadoValidaPessoa = ValidaPessoa(pessoaDtoRequest);
 
-                if (!naoEhNegativo(pessoaDtoRequest.Idade))
+                if (resultadoValidaPessoa.IsFailure)
                 {
-                    return Result<PessoaDtoResponse>.Failure("A idade da Pessoa não pode ser negativa!");
+                    return resultadoValidaPessoa;
                 }
 
                 var pessoa = _mapper.Map<Pessoa>(pessoaDtoRequest);
@@ -38,7 +35,7 @@ namespace GR.PessoaAPI.Service
 
                 if (result.IsFailure)
                 {
-                    return Result<PessoaDtoResponse>.Failure("Falha ao cadastrar uma Pessoa!");
+                    return Failure("Falha ao cadastrar uma Pessoa!");
                 }
 
                 var pessoaDtoResponse = _mapper.Map<PessoaDtoResponse>(result.Objet);
@@ -114,6 +111,23 @@ namespace GR.PessoaAPI.Service
             }
         }
 
-        Func<int, bool> naoEhNegativo = idade => idade >= 0;
+        readonly Func<PessoaDtoRequest, Result<PessoaDtoResponse>>
+            ValidaPessoa = (pessoaDtoRequest) =>
+        {
+            if (pessoaDtoRequest is null)
+            {
+                return Failure("Falha a pessoaDtoRequest deve ser diferente de null!");
+            }
+
+            if (pessoaDtoRequest.Idade <= 0)
+            {
+                return Failure("A idade da Pessoa deve de ser MAIOR que 0.");
+            }
+
+            return Result<PessoaDtoResponse>.Success(new PessoaDtoResponse());
+        };
+
+        private static Result<PessoaDtoResponse> Failure(string mensagem) => Result<PessoaDtoResponse>.Failure(mensagem);
+
     }
 }

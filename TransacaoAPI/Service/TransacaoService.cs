@@ -34,7 +34,7 @@ namespace GR.TransacaoAPI.Service
             {
                 if (transacaoDtoRequest is null)
                 {
-                    return Result<TransacaoDtoResponse>.Failure("Falha a transacaoDtoRequest deve ser diferente de null!");
+                    return Failure("Falha a transacaoDtoRequest deve ser diferente de null!");
                 }
 
                 var pessoa = await _pessoaRepository.GetPessoaByIdAsync(transacaoDtoRequest.PessoaId);
@@ -51,7 +51,7 @@ namespace GR.TransacaoAPI.Service
 
                if (result.IsFailure)
                {
-                   return Result<TransacaoDtoResponse>.Failure("Falha ao cadastrar uma Transação!");
+                   return Failure("Falha ao cadastrar uma Transação!");
                }
 
                var transacaoDtoResponse = _mapper.Map<TransacaoDtoResponse>(result.Objet);
@@ -122,32 +122,32 @@ namespace GR.TransacaoAPI.Service
             }
         }
 
-        readonly Func<TransacaoDtoRequest, Result<Pessoa>, Result<Categoria>, Result<TransacaoDtoResponse>>
+        readonly Func<TransacaoDtoRequest, Result<Pessoa>, Result<Categoria>, Result<TransacaoDtoResponse>> 
             ValidaTransacao = (transacaoDtoRequest, pessoa, categoria) =>
         {
             if (pessoa.IsFailure)
             {
-                return Fail("Falha pessoa não encontrada!");
+                return Failure("Falha pessoa não encontrada!");
             }
 
             if (categoria.IsFailure)
             {
-                return Fail("Falha categoria não encontrada!");
+                return Failure("Falha categoria não encontrada!");
             }
 
             if (pessoa.Objet!.Idade < MAIOR_IDADE && transacaoDtoRequest.Tipo != TipoTransacao.Despesa)
             {
-                return Fail("Pessoa MENOR DE IDADE apenas Despesas deverão ser aceitas!");
+                return Failure("Pessoa MENOR DE IDADE apenas Despesas deverão ser aceitas!");
             }
 
             if (((int)categoria.Objet!.Finalidade != (int)transacaoDtoRequest.Tipo) && (transacaoDtoRequest.Tipo != TIPO_AMBOS))
             {
-                return Fail("O Tipo da Transação deve ser compatível com a Finalidade da Categoria!");
+                return Failure("O Tipo da Transação deve ser compatível com a Finalidade da Categoria!");
             }
 
             return Result<TransacaoDtoResponse>.Success(new TransacaoDtoResponse());
         };
 
-        private static Result<TransacaoDtoResponse> Fail(string mensagem) => Result<TransacaoDtoResponse>.Failure(mensagem); 
+        private static Result<TransacaoDtoResponse> Failure(string mensagem) => Result<TransacaoDtoResponse>.Failure(mensagem); 
     }
 }
