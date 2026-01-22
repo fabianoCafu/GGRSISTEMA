@@ -6,7 +6,7 @@ using Moq;
 using Xunit;
 using static Shared.Result.ResultMessage;
 
-namespace GGR.PessoaAPI.Test
+namespace GGR.PessoaAPI.Tests
 {
     public class PessoaControllerTests
     {

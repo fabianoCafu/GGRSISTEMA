@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GGR.PessoaAPI.Test
+namespace GGR.PessoaAPI.Tests
 {
-    internal class PessoaSeviceTests
+    internal class PessoaRepositoryTests
     {
     }
 }

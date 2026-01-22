@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GGR.Tests", "GGR.Tests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGR.CategoriaAPI.Tests", "GGR.CategoriaAPI.Tests\GGR.CategoriaAPI.Tests.csproj", "{CD57E13A-77D3-4BCE-A4EC-0274AE2E1F51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGR.PessoaAPI.Test", "GGR.PessoaAPI.Test\GGR.PessoaAPI.Test.csproj", "{FE8E601D-2D32-4ED3-8685-1D45919A5768}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGR.PessoaAPI.Tests", "GGR.PessoaAPI.Tests\GGR.PessoaAPI.Tests.csproj", "{FE8E601D-2D32-4ED3-8685-1D45919A5768}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGR.TransacaoAPI.Tests", "GGR.TransacaoAPI.Tests\GGR.TransacaoAPI.Tests.csproj", "{680CFC8C-CD1F-451A-B6E5-96F03A5F4965}"
 EndProject
