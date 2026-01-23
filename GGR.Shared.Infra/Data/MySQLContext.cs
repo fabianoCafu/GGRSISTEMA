@@ -8,6 +8,7 @@ namespace GR.Shared.Infra.Data
         public MySQLContext(DbContextOptions<MySQLContext> options) 
             : base(options) { }
 
+
         public DbSet<Pessoa>? Pessoas { get; set; }
 
         public DbSet<Categoria>? Categorias { get; set; }

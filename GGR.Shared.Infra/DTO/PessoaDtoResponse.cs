@@ -9,5 +9,10 @@ namespace GR.Shared.Infra.DTO
         public string? Nome { get; set; }
         public int Idade { get; set; }
         public DateTime DataCriacaoRegistro { get; init; }
+
+        public PessoaDtoResponse()
+        {
+            DataCriacaoRegistro = DateTime.Now;
+        }
     }
 }

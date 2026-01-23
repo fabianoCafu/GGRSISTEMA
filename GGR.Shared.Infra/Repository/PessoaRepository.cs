@@ -31,7 +31,7 @@ namespace GR.Shared.Infra.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao criar uma pessoa no banco.");
-                throw;
+                throw new Exception($"Error {ex.Message} ao criar uma pessoa no banco!"); 
             }
         }
 
@@ -61,7 +61,7 @@ namespace GR.Shared.Infra.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao deletar uma pessoa no banco.");
-                throw;
+                throw new Exception($"Error {ex.Message} ao deletar uma pessoa no banco!"); 
             }
         }
 
@@ -79,7 +79,7 @@ namespace GR.Shared.Infra.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao buscar pessoas no banco.");
-                throw;
+                throw new Exception($"Error {ex.Message} ao buscar pessoas no banco!");
             }
         }
 
@@ -98,7 +98,7 @@ namespace GR.Shared.Infra.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao buscar pessoa no banco.");
-                throw;
+                throw new Exception($"Error {ex.Message} ao buscar pessoa no banco!");
             }
         }
 
@@ -117,8 +117,8 @@ namespace GR.Shared.Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar pessoa no banco.");
-                throw;
+                _logger.LogError(ex, "Erro ao buscar pessoa pelo Id no banco.");
+                throw new Exception($"Error {ex.Message} ao ao buscar pessoa pelo Id no banco!");
             }
         }
     }

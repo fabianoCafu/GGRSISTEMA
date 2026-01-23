@@ -35,15 +35,15 @@ namespace GR.PessoaAPI.Service
 
                 if (result.IsFailure)
                 {
-                    return Failure("Falha ao cadastrar uma Pessoa!");
+                    return Failure(result.Error!.ToString());
                 }
 
                 var pessoaDtoResponse = _mapper.Map<PessoaDtoResponse>(result.Objet);
                 return Result<PessoaDtoResponse>.Success(pessoaDtoResponse);
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error {ex.Message} ao cadastra uma Pessoa!");
+            catch 
+            {     
+                throw new Exception($"Error ao cadastra uma Pessoa!");
             }
         }
 
