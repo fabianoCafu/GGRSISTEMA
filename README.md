@@ -66,12 +66,13 @@ Banco de Dados Utilizado!
 MySql 8. 0. 4
 
 * Migration
-dotnet ef migrations add CreateGGRDataBase --project .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
-dotnet ef database update --project .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
+dotnet ef migrations add CreateGGRDataBase --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
+dotnet ef database update --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
 
 
 
  
+
 
 
 
