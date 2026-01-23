@@ -4,6 +4,7 @@ using GR.Shared.Infra.DTO;
 using GR.Shared.Infra.Model;
 using GR.Shared.Infra.Repository;
 using Moq;
+using System;
 using Xunit;
 using static Shared.Result.ResultMessage;
 
@@ -145,6 +146,102 @@ namespace GGR.PessoaAPI.Tests
 
         #region EndPoint Delete
 
+        [Fact]
+        public async Task Delete_Deve_RetornarUmIsSuccess_QuandoPessoaForDeletadaComSucesso()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.DeleteAsync(It.IsAny<Guid>()))
+                                 .ReturnsAsync(Result<bool>.Success(true));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            var pessoaResponse = MockPessoaDtoResponse();
+
+            // Act
+            var result = await pessoaService.DeleteAsync(pessoaResponse.Id);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.False(result.IsFailure);
+        }
+
+        [Fact]
+        public async Task Delete_Deve_RetornarUmIsFailure_QuandoPessoaDtoRequest_GuidForEmpty()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.CreateAsync(It.IsAny<Pessoa>()))
+                                 .ReturnsAsync(Result<Pessoa>.Success(MockPessoaRequest()));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            
+            // Act
+            var result = await pessoaService.DeleteAsync(Guid.Empty);
+            
+            // Assert
+            Assert.True(result.IsFailure);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Falha o idPessoa deve ser diferente de null!", result.Error);
+        }
+
+        [Fact]
+        public async Task Delete_Deve_RetornarUmIsFailure_QuandoHouverUmaFalhaAoDeletarUmaPessoa()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.DeleteAsync(It.IsAny<Guid>()))
+                                 .ReturnsAsync(Result<bool>.Failure("Falha ao Remover Pessoa!"));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            var pessoaResponse = MockPessoaDtoResponse();
+
+            // Act
+            var result = await pessoaService.DeleteAsync(pessoaResponse.Id);
+
+            // Assert
+            Assert.True(result.IsFailure);
+            Assert.Equal("Falha ao Remover Pessoa!", result.Error);
+        }
+
+        [Fact]
+        public async Task Delete_Deve_RetornarUmaExcption_QuandoForDeletarUmaPessoa()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.DeleteAsync(It.IsAny<Guid>()))
+                                 .ThrowsAsync(new Exception("Error ao cadastra uma Pessoa!"));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            var pessoaResponse = MockPessoaDtoResponse();
+
+            // Act
+            var exception = await Assert.ThrowsAsync<Exception>(() => pessoaService.DeleteAsync(pessoaResponse.Id));
+
+            // Assert 
+            Assert.Equal("Error ao cadastra uma Pessoa!", exception.Message);
+        }
+
+
         #endregion
 
         #region EndPoint List
@@ -177,5 +274,16 @@ namespace GGR.PessoaAPI.Tests
                 Idade = 35
             };
         }
+
+        private static PessoaDtoResponse MockPessoaDtoResponseComGuidVazio()
+        {
+            return new PessoaDtoResponse
+            {
+                Id = Guid.Empty,
+                Nome = "João Alfredo Cunha",
+                Idade = 35
+            };
+        }
+
     }
 }

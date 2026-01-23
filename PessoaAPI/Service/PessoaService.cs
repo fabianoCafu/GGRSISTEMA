@@ -43,7 +43,7 @@ namespace GR.PessoaAPI.Service
             }
             catch 
             {     
-                throw new Exception($"Error ao cadastra uma Pessoa!");
+                throw new Exception("Error ao cadastra uma Pessoa!");
             }
         }
 
@@ -65,9 +65,9 @@ namespace GR.PessoaAPI.Service
 
                 return Result<bool>.Success(true);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception($"Error {ex.Message} ao deletar uma Pessoa!");
+                throw new Exception("Error ao cadastra uma Pessoa!");
             }
         }
 
