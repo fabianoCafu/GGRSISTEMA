@@ -42,18 +42,16 @@ namespace GGR.PessoaAPI.Tests
         [Fact]
         public async void Create_Deve_RetornarUmCreatedResult201_QuandoPessoaForCriadaComSucesso()
         {
-            // Arrange 
-            var pessoaDto = new PessoaDtoRequest { Nome = "Camila do Santos Martins", Idade = 34 };
-
+            // Arrange  
             _mockPessoaService.Setup(a => a.CreateAsync(It.IsAny<PessoaDtoRequest>()))
                               .ReturnsAsync(Result<PessoaDtoResponse>.Success(new PessoaDtoResponse()));
 
             // Act 
-            var result = await _controller.Create(pessoaDto);
+            var result = await _controller.Create(new PessoaDtoRequest());
 
             // Assert
-            var createdResult = Assert.IsType<CreatedResult>(result.Result);
-            Assert.Equal(201, createdResult.StatusCode);
+            var createResult = Assert.IsType<CreatedResult>(result.Result);
+            Assert.Equal(201, createResult.StatusCode);
         }
 
         [Fact]
@@ -61,7 +59,7 @@ namespace GGR.PessoaAPI.Tests
         {
             // Arrange
             _mockPessoaService.Setup(a => a.CreateAsync(It.IsAny<PessoaDtoRequest>()))
-                              .ReturnsAsync(Result<PessoaDtoResponse>.Failure("Falha ao cadastrar uma Pessoa!"));
+                              .ReturnsAsync(Result<PessoaDtoResponse>.Failure(string.Empty));
 
             // Act
             var result = _controller.Create(_mockPessoaDtoRequest.Object);
@@ -75,14 +73,12 @@ namespace GGR.PessoaAPI.Tests
         [Fact]
         public async void Create_Deve_RetornarUmaException_AoTentarCriarUmaPessoa()
         {
-            // Arrange 
-            var pessoaDto = new PessoaDtoRequest { Nome = "Camila do Santos Martins", Idade = 34 };
-
+            // Arrange  
             _mockPessoaService.Setup(r => r.CreateAsync(It.IsAny<PessoaDtoRequest>()))
                               .ThrowsAsync(new Exception("Internal Server Error"));
 
             // Act
-            var exception = await Assert.ThrowsAsync<Exception>(() => _controller.Create(pessoaDto));
+            var exception = await Assert.ThrowsAsync<Exception>(() => _controller.Create(new PessoaDtoRequest()));
 
             // Assert
             Assert.Equal("Error: Internal Server Error ao criar Pessoa!", exception.Message);
@@ -143,9 +139,7 @@ namespace GGR.PessoaAPI.Tests
         [Fact]
         public async void List_Deve_RetornarOk200_AoListarPessoas()
         {
-            // Arrange 
-            //var listaPessoas = new Result<List<PessoaDtoResponse>>();
-
+            // Arrange  
             _mockPessoaService.Setup(a => a.GetAllAsync())
                               .ReturnsAsync(Result<List<PessoaDtoResponse>>.Success(new List<PessoaDtoResponse>()));
 
