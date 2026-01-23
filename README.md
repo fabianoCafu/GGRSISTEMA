@@ -60,7 +60,21 @@ Observações:
 Solicitamos gentilmente que quaisquer referências à Organização sejam removidas de todos os arquivos antes da publicação.
 Caso se sinta à vontade, pode-se implementar recursos adicionais desde que os mesmos não afetem o funcionamento dos já especificados nesse formulário.
 
+Banco de Dados Utilizado!
+
+* DataBase 
+MySql 8. 0. 4
+
+* Migration
+dotnet ef migrations add CreateGGRDataBase --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
+dotnet ef database update --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
+
+
+
  
+
+
+
 
 
 
