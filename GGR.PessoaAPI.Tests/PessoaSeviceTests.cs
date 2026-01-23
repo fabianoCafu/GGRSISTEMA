@@ -13,11 +13,13 @@ namespace GGR.PessoaAPI.Tests
     public class PessoaSeviceTests
     {
         private readonly Mock<IPessoaRespository> _mockPessoaRepository;
+        private readonly Mock<List<IPessoaRespository>> _mockListPessoaRespository;
         private readonly Mock<IMapper> _mockMapper;
         
         public PessoaSeviceTests()
         {
             _mockPessoaRepository = new Mock<IPessoaRespository>();
+            _mockListPessoaRespository = new Mock<List<IPessoaRespository>>();
             _mockMapper = new Mock<IMapper>();
         }
 
@@ -244,7 +246,85 @@ namespace GGR.PessoaAPI.Tests
 
         #endregion
 
+        #region EndPoit GetByName
+
+        [Fact]
+        public async Task GetByName_Deve_RetornarUmIsSuccess_QuandoAhBuscaForRealizadaComSucesso()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.GetByName(It.IsAny<string>()))
+                                 .ReturnsAsync(Result<List<Pessoa>>.Success(new List<Pessoa>()));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            var pessoaResponse = MockPessoaDtoResponse();
+
+            // Act
+            var result = await pessoaService.GetByName(pessoaResponse.Nome!);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.False(result.IsFailure);
+        }
+
+        [Fact]
+        public async Task GetByName_Deve_RetornarUmaExcption_QuandoRealizadoUmaBuscaPeloNomeDaPessoa()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.GetByName(It.IsAny<string>()))
+                                 .ThrowsAsync(new Exception("Error ao buscar uma Pessoa!"));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            var pessoaResponse = MockPessoaDtoResponse();
+
+            // Act
+            var exception = await Assert.ThrowsAsync<Exception>(() => pessoaService.GetByName(pessoaResponse.Nome!));
+
+            // Assert 
+            Assert.Equal("Error ao buscar uma Pessoa!", exception.Message);
+        }
+
+        [Fact]
+        public async Task GetByName_Deve_RetornarUmIsFailure_QuandoPessoaDtoRequest_NomeForEmpty()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.GetByName(It.IsAny<string>()))
+                                 .ReturnsAsync(Result<List<Pessoa>>.Failure("Falha o nome da Pessoa deve ser informado!"));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            var pessoaResponse = MockPessoaDtoResponse();
+            pessoaResponse.Nome = string.Empty;
+
+            // Act
+            var result = await pessoaService.GetByName(pessoaResponse.Nome);
+
+            // Assert
+            Assert.True(result.IsFailure);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Falha o nome da Pessoa deve ser informado!", result.Error);
+        }
+
+        #endregion
+
         #region EndPoint List
+
         #endregion
 
         private static PessoaDtoRequest MockPessoaDtoRequest()
@@ -274,16 +354,5 @@ namespace GGR.PessoaAPI.Tests
                 Idade = 35
             };
         }
-
-        private static PessoaDtoResponse MockPessoaDtoResponseComGuidVazio()
-        {
-            return new PessoaDtoResponse
-            {
-                Id = Guid.Empty,
-                Nome = "João Alfredo Cunha",
-                Idade = 35
-            };
-        }
-
     }
 }

@@ -85,9 +85,9 @@ namespace GR.PessoaAPI.Service
 
                 return Result<List<PessoaDtoResponse>>.Success(listaPessoaDtoResponse);
             }
-            catch (Exception ex)
+            catch 
             {
-                throw new Exception($"Error {ex.Message} ao buscar uma Pessoa!");
+                throw new Exception("Error ao buscar uma Pessoa!");
             }
         }
 
