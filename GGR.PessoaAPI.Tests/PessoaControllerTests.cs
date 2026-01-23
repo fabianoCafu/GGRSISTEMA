@@ -228,6 +228,7 @@ namespace GGR.PessoaAPI.Tests
             // Assert
             Assert.Equal("Error: Internal Server Error ao buscar Pessoa pelo Nome!", exception.Message);
         }
+
         #endregion
     }
 }

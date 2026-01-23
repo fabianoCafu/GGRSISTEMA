@@ -62,7 +62,7 @@ namespace GR.TransacaoAPI.Controllers
         }
 
         [HttpGet("getnetbalanceperson")]
-        public async Task<IActionResult> GetNetBalancePerson()
+        public async Task<ActionResult<Result<List<SaldoLiquidoDtoResponse>>>> GetNetBalancePerson()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace GR.TransacaoAPI.Controllers
         }
 
         [HttpGet("getnetbalancecategory")]
-        public async Task<IActionResult> GetNetBalanceCategory()
+        public async Task<ActionResult<Result<List<SaldoLiquidoDtoResponse>>>> GetNetBalanceCategory()
         {
             try
             {
