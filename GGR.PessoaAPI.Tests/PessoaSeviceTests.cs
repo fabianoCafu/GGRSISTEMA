@@ -4,7 +4,6 @@ using GR.Shared.Infra.DTO;
 using GR.Shared.Infra.Model;
 using GR.Shared.Infra.Repository;
 using Moq;
-using System;
 using Xunit;
 using static Shared.Result.ResultMessage;
 

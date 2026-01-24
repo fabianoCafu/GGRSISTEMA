@@ -30,8 +30,8 @@ namespace GR.Shared.Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao criar uma pessoa no banco.");
-                throw new Exception($"Error {ex.Message} ao criar uma pessoa no banco!"); 
+                _logger.LogError($"Erro ao criar uma pessoa no banco. - {ex.Message}");
+                throw new Exception("Error ao criar uma Pessoa no Banco de Dados!"); 
             }
         }
 
@@ -60,8 +60,8 @@ namespace GR.Shared.Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao deletar uma pessoa no banco.");
-                throw new Exception($"Error {ex.Message} ao deletar uma pessoa no banco!"); 
+                _logger.LogError($"Erro ao deletar uma pessoa no banco. - {ex.Message}");
+                throw new Exception("Error ao deletar uma Pessoa no Banco de Dados!"); 
             }
         }
 
@@ -78,8 +78,8 @@ namespace GR.Shared.Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar pessoas no banco.");
-                throw new Exception($"Error {ex.Message} ao buscar pessoas no banco!");
+                _logger.LogError($"Erro ao buscar pessoas no banco. - {ex.Message}");
+                throw new Exception("Error ao buscar Pessoas no Banco de Dados!");
             }
         }
 
@@ -97,8 +97,8 @@ namespace GR.Shared.Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar pessoa no banco.");
-                throw new Exception($"Error {ex.Message} ao buscar pessoa no banco!");
+                _logger.LogError($"Erro ao buscar pessoa no banco. - {ex.Message}");
+                throw new Exception("Error ao buscar Pessoa pelo Nome no Banco de Dados!");
             }
         }
 
@@ -117,8 +117,8 @@ namespace GR.Shared.Infra.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar pessoa pelo Id no banco.");
-                throw new Exception($"Error {ex.Message} ao ao buscar pessoa pelo Id no banco!");
+                _logger.LogError($"Erro ao buscar pessoa pelo Id no banco. - {ex.Message}");
+                throw new Exception("Error ao ao buscar Pessoa pelo Id no Banco de Dados!");
             }
         }
     }
