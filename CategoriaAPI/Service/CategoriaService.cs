@@ -39,9 +39,9 @@ namespace GR.CategoriaAPI.Service
                 var categoriaDtoResponse = _mapper.Map<CategoriaDtoResponse>(result.Objet);
                 return Result<CategoriaDtoResponse>.Success(categoriaDtoResponse);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception($"Error {ex.Message} ao cadastra uma Categoria!");
+                throw new Exception("Error ao cadastra uma Categoria!");
             }
         }
 
@@ -59,9 +59,9 @@ namespace GR.CategoriaAPI.Service
 
                 return Result<List<CategoriaDtoResponse>>.Success(listaCategoriaDtoResponse);
             }
-            catch (Exception ex)
+            catch 
             {
-                throw new Exception($"Error {ex.Message} ao buscar uma Categoria!");
+                throw new Exception("Error ao buscar uma Categoria pela Descrição!");
             }
         }
 
@@ -80,9 +80,9 @@ namespace GR.CategoriaAPI.Service
                 return Result<List<CategoriaDtoResponse>>.Success(pessoaDtoResponse);
 
             }
-            catch (Exception ex)
+            catch 
             {
-                throw new Exception($"Error {ex.Message} ao listar Categorias!");
+                throw new Exception("Error ao listar Categorias!");
             }
         }
     }

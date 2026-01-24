@@ -102,7 +102,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.CreateAsync(It.IsAny<Pessoa>()))
-                                 .ReturnsAsync(Result<Pessoa>.Failure("Falha ao cadastrar uma Pessoa!"));
+                                 .ReturnsAsync(Result<Pessoa>.Failure(string.Empty));
 
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -126,7 +126,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.CreateAsync(It.IsAny<Pessoa>())) 
-                                 .ThrowsAsync(new Exception("Error ao cadastra uma Pessoa!"));
+                                 .ThrowsAsync(new Exception(string.Empty));
             
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -201,7 +201,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.DeleteAsync(It.IsAny<Guid>()))
-                                 .ReturnsAsync(Result<bool>.Failure("Falha ao Remover Pessoa!"));
+                                 .ReturnsAsync(Result<bool>.Failure(string.Empty));
 
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -225,7 +225,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.DeleteAsync(It.IsAny<Guid>()))
-                                 .ThrowsAsync(new Exception("Error ao cadastra uma Pessoa!"));
+                                 .ThrowsAsync(new Exception(string.Empty));
 
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -239,7 +239,6 @@ namespace GGR.PessoaAPI.Tests
             // Assert 
             Assert.Equal("Error ao cadastra uma Pessoa!", exception.Message);
         }
-
 
         #endregion
 
@@ -277,7 +276,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.GetByName(It.IsAny<string>()))
-                                 .ThrowsAsync(new Exception("Error ao buscar uma Pessoa!"));
+                                 .ThrowsAsync(new Exception(string.Empty));
 
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -300,7 +299,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.GetByName(It.IsAny<string>()))
-                                 .ReturnsAsync(Result<List<Pessoa>>.Failure("Falha o nome da Pessoa deve ser informado!"));
+                                 .ReturnsAsync(Result<List<Pessoa>>.Failure(string.Empty));
 
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -321,6 +320,7 @@ namespace GGR.PessoaAPI.Tests
         #endregion
 
         #region EndPoint GetAllAsync
+
         [Fact]
         public async Task GetAllAsync_Deve_RetornarUmIsSuccess_QuandoAhBuscaPorTodasAsPessoaForRealizadaComSucesso()
         {
@@ -352,7 +352,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.GetAllAsync())
-                                 .ReturnsAsync(Result<List<Pessoa>>.Failure("Falha ao listar Pessoas!"));
+                                 .ReturnsAsync(Result<List<Pessoa>>.Failure(string.Empty));
 
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -376,7 +376,7 @@ namespace GGR.PessoaAPI.Tests
                        .Returns(MockPessoaRequest());
 
             _mockPessoaRepository.Setup(r => r.GetAllAsync())
-                                 .ThrowsAsync(new Exception("Falha ao listar Pessoas!"));
+                                 .ThrowsAsync(new Exception(string.Empty));
 
             _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
                        .Returns(MockPessoaDtoResponse());
@@ -391,6 +391,8 @@ namespace GGR.PessoaAPI.Tests
         }
 
         #endregion
+
+        #region Metodos Private
 
         private static PessoaDtoRequest MockPessoaDtoRequest()
         {
@@ -419,5 +421,7 @@ namespace GGR.PessoaAPI.Tests
                 Idade = 35
             };
         }
+
+        #endregion
     }
 }

@@ -25,6 +25,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CategoriaAPI\GGR.CategoriaAPI.csproj" />
+    <ProjectReference Include="..\GGR.Shared.Infra\GGR.Shared.Infra.csproj" />
+    <ProjectReference Include="..\Shared.Aplication.Enum\Shared.Aplication.Enum.csproj" />
   </ItemGroup>
 
 </Project>

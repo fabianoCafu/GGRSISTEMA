@@ -35,7 +35,7 @@ namespace GR.PessoaAPI.Service
 
                 if (result.IsFailure)
                 {
-                    return Failure(result.Error!.ToString());
+                    return Failure("Falha ao cadastrar uma Pessoa!");
                 }
 
                 var pessoaDtoResponse = _mapper.Map<PessoaDtoResponse>(result.Objet);

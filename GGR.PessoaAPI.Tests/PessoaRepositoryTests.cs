@@ -1,109 +1,172 @@
 ﻿//using GR.PessoaAPI.Controllers;
 //using GR.PessoaAPI.Service;
+//using GR.Shared.Infra.Data;
 //using GR.Shared.Infra.DTO;
-//using Microsoft.AspNetCore.Mvc;
+//using GR.Shared.Infra.Model;
+//using GR.Shared.Infra.Repository;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.Extensions.Logging;
 //using Moq;
 //using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using static Shared.Result.ResultMessage;
+////using System.Data.Entity;
 //using Xunit;
-//using GR.Shared.Infra.Repository;
-//using GR.Shared.Infra.Model;
-//using System.Data.Entity;
-//using Microsoft.Extensions.Logging;
+//using static Shared.Result.ResultMessage;
 
 //namespace GGR.PessoaAPI.Tests
 //{
 //    public class PessoaRepositoryTests
 //    {
-//        private readonly Mock<IPessoaRespository> _mockPessoaRepository;
-//        private readonly Mock<PessoaDtoRequest> _mockPessoaDtoRequest;
-//        private readonly Mock<DbSet<Pessoa>> _mockPessoaDbSet; 
-//        private readonly PessoaController _controller;
-
+//        private readonly Mock<DbSet<Pessoa>> _mockPessoaRepository;
+//        private readonly Mock<MySQLContext>  _mockPessoaContext;
+        
 //        public PessoaRepositoryTests()
 //        {
-//            _mockPessoaRepository = new Mock<IPessoaRespository>();
-//            _mockPessoaDtoRequest = new Mock<PessoaDtoRequest>();
-//            _mockPessoaDbSet = new Mock<DbSet<Pessoa>>();
+//            _mockPessoaContext = new Mock<MySQLContext>();
+//            _mockPessoaRepository = new Mock<DbSet<Pessoa>>();
 //        }
 
-//        private static Mock<DbSet<Pessoa>> CriarMockDbSet()
-//        {
-//            var data = new List<Pessoa>().AsQueryable();
+//        //private static PessoaRepository CreatePessoaRepository()
+//        //{
+//        //    var options = new DbContextOptionsBuilder<MySQLContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid()
+//        //                                                             .ToString()).Options;
 
-//            var mockSet = new Mock<DbSet<Pessoa>>();
-//            mockSet.As<IQueryable<Pessoa>>().Setup(m => m.Provider).Returns(data.Provider);
-//            mockSet.As<IQueryable<Pessoa>>().Setup(m => m.Expression).Returns(data.Expression);
-//            mockSet.As<IQueryable<Pessoa>>().Setup(m => m.ElementType).Returns(data.ElementType);
-//            mockSet.As<IQueryable<Pessoa>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+//        //    var context = new MySQLContext(options);
+//        //    var logger = new Mock<ILogger<PessoaRepository>>();
 
-//            return mockSet;
-//        }
-
+//        //    return new PessoaRepository(context, logger.Object);
+//        //}
 
 //        #region EndPointt Create
 
 //        [Fact]
-//        public async Task CreateAsync_Deve_Retornar_Success_Quando_Pessoa_For_Criada()
+//        public async Task CreateAsync_Deve_LancarExcecao_QuandoSaveChangesFalhar()
 //        {
 //            // Arrange
-//            var pessoa = MockPessoaPost(); 
-//            var mockSet = CriarMockDbSet();
+//            var options = new DbContextOptionsBuilder<MySQLContext>()
+//                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+//                .Options;
 
-//            var mockContext = new Mock<AppDbContext>();
-//            mockContext.Setup(c => c.Pessoas).Returns(mockSet.Object);
-//            mockContext.Setup(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()))
-//                       .ReturnsAsync(1);
+//            var context = new MySQLContext(options);
 
-//            var mockLogger = new Mock<ILogger<PessoaRepository>>();
+//            var loggerMock = new Mock<ILogger<PessoaRepository>>();
+//            var repository = new PessoaRepository(context, loggerMock.Object);
 
-//            var repository = new PessoaRepository(mockContext.Object, mockLogger.Object);
+//            var pessoa = MockPessoaRequest();
 
-//            // Act
-//            var result = await repository.CreateAsync(pessoa);
+//            // Força erro simulando SaveChanges
+//            context.Database.EnsureDeleted();
 
-//            // Assert
-//            Assert.True(result.IsSuccess);
-//            Assert.NotNull(result.Value);
-//            Assert.Equal("Fabiano", result.Value.Nome);
+//            // Act & Assert
+//            var exception = await Assert.ThrowsAsync<Exception>(() => repository.CreateAsync(pessoa));
 
-//            mockSet.Verify(s => s.Add(It.IsAny<Pessoa>()), Times.Once);
-//            mockContext.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+//            Assert.Contains("Erro ao criar", exception.Message);
 //        }
 
+
+
 //        [Fact]
-//        public async void CreateAsync_Deve_RetornarIsSuccess_QuandoPessoaForCriadaComSucesso()
+//        //public async Task CreateAsync_Deve_RetornarIsSuccessQuandoPessoaForCriadaComSucess()
+//        public async Task CreateAsync_Deve_LancarExcecao_QuandoSaveChangesFalhar_()
 //        {
-//            // Arrange 
-//            var pessoaPost = MockPessoaPost();
-//            var mockSet = new Mock<DbSet<Pessoa>>();
+//            // Arrange   
+//            _mockPessoaContext.Setup(p => p.Pessoas)
+//                              .Returns(_mockPessoaRepository.Object);
 
-//            _mockPessoaRepository.Setup(a => a.CreateAsync(It.IsAny<Pessoa>()))
-//                                 .ReturnsAsync(Result<Pessoa>.Success(new Pessoa()));
+//            _mockPessoaContext.Setup(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()))
+//                              .ThrowsAsync(new Exception("Error ao criar uma Pessoa no banco de Dados!"));
 
-//            // Act 
-//            var result = await _mockPessoaRepository.Object.CreateAsync(pessoaPost);
+//            var loggerMock = new Mock<ILogger<PessoaRepository>>();
+//            var pessoaRepository = new PessoaRepository(_mockPessoaContext.Object, loggerMock.Object);
+//            var pessoa = MockPessoaRequest();
 
 //            // Assert
-//            Assert.True(result.IsSuccess);
+//            var exception = await Assert.ThrowsAsync<Exception>(() => pessoaRepository.CreateAsync(pessoa));
+
+//            Assert.Equal("Erro ao criar uma Pessoa no banco de Dados!", exception.Message );
+//        }
+
+//        //[Fact]
+//        //public async Task CreateAsync_Deve_LancarExcecao_QuandoSaveChangesFalhar()
+//        //{
+//        //    // Arrange
+//        //    var pessoa = MockPessoaRequest();
+
+//        //    var contextMock = new Mock<MySQLContext>();
+//        //    var pessoasMock = new Mock<DbSet<Pessoa>>();
+
+//        //    contextMock
+//        //        .Setup(c => c.Pessoas)
+//        //        .Returns(pessoasMock.Object);
+
+//        //    contextMock
+//        //        .Setup(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()))
+//        //        .ThrowsAsync(new Exception("Erro no banco"));
+
+//        //    var loggerMock = new Mock<ILogger<PessoaRepository>>();
+
+//        //    var repository = new PessoaRepository(
+//        //        contextMock.Object,
+//        //        loggerMock.Object
+//        //    );
+
+//        //    // Act & Assert
+//        //    var exception = await Assert.ThrowsAsync<Exception>(
+//        //        () => repository.CreateAsync(pessoa)
+//        //    );
+
+//        //    Assert.Equal(
+//        //        "Erro ao criar uma Pessoa no banco de Dados!",
+//        //        exception.Message
+//        //    );
+//        //}
+
+
+
+//        //[Fact]
+//        //public async Task GetAllAsync_Deve_RetornarUmaExcption_QuandoBustarPorTodasAsPessoas()
+//        //{
+//        //    // Arrange 
+//        //    _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+//        //               .Returns(MockPessoaRequest());
+
+//        //    _mockPessoaRepository.Setup(r => r.GetAllAsync())
+//        //                         .ThrowsAsync(new Exception("Falha ao listar Pessoas!"));
+
+//        //    _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+//        //               .Returns(MockPessoaDtoResponse());
+
+//        //    var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+
+//        //    // Act
+//        //    var exception = await Assert.ThrowsAsync<Exception>(() => pessoaService.GetAllAsync());
+
+//        //    // Assert 
+//        //    Assert.Equal("Falha ao listar Pessoas!", exception.Message);
+//        //}
+
+
+//        [Fact]
+//        public async void CreateAsync_Deve_RetornarUmaExcption_QuandoPessoaForCriarUmaPessoa()
+//        {
+//            //$"Error ao criar uma Pessoa no banco de Dados!"
+
+//            // Arrange 
+
+//            // Act 
+
+//            // Assert
+
 //        }
 
 //        [Fact]
 //        public async Task CreateAsync_Deve_LancarExcecao_QuandoForSalvarUmaPessoa()
 //        {
 //            // Act 
-//            _mockPessoaRepository.Setup(r => r.CreateAsync(It.IsAny<Pessoa>()))
-//                                 .ThrowsAsync(new Exception("Internal Server Error"));
-
+           
 //            // Arrange 
-//            var exception = await Assert.ThrowsAsync<Exception>(() => _mockPessoaRepository.Object.CreateAsync(new Pessoa()));
-            
+
 //            // Assert
-//            Assert.Equal("Internal Server Error", exception.Message);
+          
 //        }
 
 //        #endregion
@@ -114,14 +177,12 @@
 //        public async Task CreateAsync_Deve_LancarExcecao_QuandoForDeletarUmaPessoa()
 //        {
 //            // Act 
-//            _mockPessoaRepository.Setup(r => r.DeleteAsync(It.IsAny<Guid>()))
-//                                 .ThrowsAsync(new Exception("Internal Server Error"));
-
+           
 //            // Arrange 
-//            var exception = await Assert.ThrowsAsync<Exception>(() => _mockPessoaRepository.Object.DeleteAsync(new Guid()));
+          
 
 //            // Assert
-//            Assert.Equal("Internal Server Error", exception.Message);
+          
 //        }
 
 //        #endregion
@@ -224,11 +285,11 @@
 //        #endregion
 
 
-//        private static Pessoa MockPessoaPost()
+//        private static PessoaDtoRequest MockPessoaDtoRequest()
 //        {
-//            return new Pessoa
+//            return new PessoaDtoRequest
 //            {
-//                Nome = "Camila Azevedo do Santos",
+//                Nome = "João Alfredo Cunha",
 //                Idade = 35
 //            };
 //        }
@@ -237,8 +298,17 @@
 //        {
 //            return new Pessoa
 //            {
+//                Nome = "João Alfredo Cunha",
+//                Idade = 35
+//            };
+//        }
+
+//        private static PessoaDtoResponse MockPessoaDtoResponse()
+//        {
+//            return new PessoaDtoResponse
+//            {
 //                Id = Guid.NewGuid(),
-//                Nome = "Fernando Carlos da Rosa Pereira",
+//                Nome = "João Alfredo Cunha",
 //                Idade = 35
 //            };
 //        }
