@@ -105,9 +105,9 @@ namespace GR.PessoaAPI.Service
                 var listaPessoaDtoResponse = _mapper.Map<List<PessoaDtoResponse>>(result.Objet);
                 return Result<List<PessoaDtoResponse>>.Success(listaPessoaDtoResponse);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception($"Error {ex.Message} ao listar Pessoas!");
+                throw new Exception("Falha ao listar Pessoas!");
             }
         }
 

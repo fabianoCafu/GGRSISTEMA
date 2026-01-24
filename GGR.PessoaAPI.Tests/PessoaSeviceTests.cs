@@ -13,13 +13,11 @@ namespace GGR.PessoaAPI.Tests
     public class PessoaSeviceTests
     {
         private readonly Mock<IPessoaRespository> _mockPessoaRepository;
-        private readonly Mock<List<IPessoaRespository>> _mockListPessoaRespository;
         private readonly Mock<IMapper> _mockMapper;
         
         public PessoaSeviceTests()
         {
             _mockPessoaRepository = new Mock<IPessoaRespository>();
-            _mockListPessoaRespository = new Mock<List<IPessoaRespository>>();
             _mockMapper = new Mock<IMapper>();
         }
 
@@ -31,7 +29,7 @@ namespace GGR.PessoaAPI.Tests
             // Arrange 
             _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
                        .Returns(MockPessoaRequest());
-
+            
             _mockPessoaRepository.Setup(r => r.CreateAsync(It.IsAny<Pessoa>()))
                                  .ReturnsAsync(Result<Pessoa>.Success(MockPessoaRequest()));
 
@@ -323,7 +321,75 @@ namespace GGR.PessoaAPI.Tests
 
         #endregion
 
-        #region EndPoint List
+        #region EndPoint GetAllAsync
+        [Fact]
+        public async Task GetAllAsync_Deve_RetornarUmIsSuccess_QuandoAhBuscaPorTodasAsPessoaForRealizadaComSucesso()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.GetAllAsync())
+                                 .ReturnsAsync(Result<List<Pessoa>>.Success(new List<Pessoa>()));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            
+            // Act
+            var result = await pessoaService.GetAllAsync();
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.False(result.IsFailure);
+        }
+
+        [Fact]
+        public async Task GetAllAsync_Deve_RetornarUmIsFailure_QuandoBustarPorTodasAsPessoas()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.GetAllAsync())
+                                 .ReturnsAsync(Result<List<Pessoa>>.Failure("Falha ao listar Pessoas!"));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            
+            // Act
+            var result = await pessoaService.GetAllAsync();
+
+            // Assert
+            Assert.True(result.IsFailure);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Falha ao listar Pessoas!", result.Error);
+        }
+
+        [Fact]
+        public async Task GetAllAsync_Deve_RetornarUmaExcption_QuandoBustarPorTodasAsPessoas()
+        {
+            // Arrange 
+            _mockMapper.Setup(m => m.Map<Pessoa>(It.IsAny<PessoaDtoRequest>()))
+                       .Returns(MockPessoaRequest());
+
+            _mockPessoaRepository.Setup(r => r.GetAllAsync())
+                                 .ThrowsAsync(new Exception("Falha ao listar Pessoas!"));
+
+            _mockMapper.Setup(m => m.Map<PessoaDtoResponse>(It.IsAny<Pessoa>()))
+                       .Returns(MockPessoaDtoResponse());
+
+            var pessoaService = new PessoaService(_mockPessoaRepository.Object, _mockMapper.Object);
+            
+            // Act
+            var exception = await Assert.ThrowsAsync<Exception>(() => pessoaService.GetAllAsync());
+
+            // Assert 
+            Assert.Equal("Falha ao listar Pessoas!", exception.Message);
+        }
 
         #endregion
 
