@@ -55,8 +55,8 @@ export default function Pessoa() {
         nomeRef.current.value = "";
         idadeRef.current.value = "";
         
-        toast.success("Pessoa cadastrada com  Sucesso!", {
-            style: { background: "#00FF7F", color: "#000000" },
+        toast.success("Pessoa cadastrada com Sucesso!", {
+            style: { background: "#228B22", color: "#000000" },
             position: "bottom-right",
         });
 

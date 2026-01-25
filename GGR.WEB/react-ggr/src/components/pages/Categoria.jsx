@@ -57,7 +57,7 @@ export default function Categoria() {
         finalidadeRef.current.value = 1;
 
         toast.success("Categoria cadastrada com Sucesso!", {
-            style: { background: "#00FF7F", color: "#000000" },
+            style: { background: "#228B22", color: "#000000" },
             position: "bottom-right",
         });
 

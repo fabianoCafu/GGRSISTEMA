@@ -75,7 +75,7 @@ export default function Transacao() {
         categoriaRef.current = null;
 
         toast.success("Transação cadastrada com Sucesso!", {
-            style: { background: "#00FF7F", color: "#000000" },
+            style: { background: "#228B22", color: "#000000" },
             position: "bottom-right",
         });
 
