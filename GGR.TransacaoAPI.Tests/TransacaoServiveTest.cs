@@ -13,7 +13,6 @@ namespace GGR.TransacaoAPI.Tests
 
         }
 
-
         #region EndPoint Create
 
         #endregion
@@ -27,6 +26,10 @@ namespace GGR.TransacaoAPI.Tests
         #endregion
 
         #region EndPoint GetNetBalanceCategory
+
+        #endregion
+
+        #region Metodos Private
 
         #endregion
 
