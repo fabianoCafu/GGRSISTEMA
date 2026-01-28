@@ -43,7 +43,7 @@ namespace GGR.PessoaAPI.Tests
 
             // Assert
             Assert.True(result.IsSuccess);
-            Assert.False(result.IsFailure);
+            Assert.False(result.IsSuccess);
         }
 
         [Fact]
