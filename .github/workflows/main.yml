@@ -1,5 +1,4 @@
 name: CI-CD GGRSISTEMA
-
 on:
   push:
     branches: [ "main" ]
@@ -7,7 +6,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build-test:
     name: Build & Test
     runs-on: ubuntu-latest
@@ -30,10 +28,18 @@ jobs:
       - name: Test
         run: dotnet test --no-build --configuration Release
 
+  nuget:
+    name: Publish NuGet
+    needs: build-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x'
+
       - name: Pack
         run: dotnet pack --configuration Release
-
-      - name: Publish
-        run: dotnet nuget push "**/*.nupkg" \
-              --api-key ${{ secrets.NUGET_API_KEY }} \
-              --source https://api.nuget.org/v3/index.json
