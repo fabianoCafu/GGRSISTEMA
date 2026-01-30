@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { GenericTable } from "../GenericTable"
+import  {Column , Categoria } from "../interface/types";
 
-const finalidadeLabel = { 1: "Receita", 2: "Despesa", 3: "Ambas"};
+const finalidadeLabel: Record<number, string> = { 1: "Receita", 2: "Despesa", 3: "Ambas" };
 
 export default function Categoria() {
     const [categorias, setCategorias] = useState([]);
@@ -22,8 +24,8 @@ export default function Categoria() {
     }
 
     async function salvarCategoria() {
-        const descricao = descricaoRef.current?.value.trim();
-        const finalidade = Number(finalidadeRef.current?.value);
+        const descricao = descricaoRef;
+        const finalidade = Number(finalidadeRef);
 
         if (!descricao || finalidade === 0) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
@@ -53,8 +55,8 @@ export default function Categoria() {
         }
 
         setShowModal(false);
-        descricaoRef.current.value = "";
-        finalidadeRef.current.value = 1;
+        descricaoRef.current = null;
+        finalidadeRef.current = null;
 
         toast.success("Categoria cadastrada com Sucesso!", {
             style: { background: "#228B22", color: "#000000" },
@@ -64,33 +66,22 @@ export default function Categoria() {
         carregarCategorias();
     }
 
-    function renderTabela() {
-        return (
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                    <th>Descrição</th>
-                    <th className="text-center">Finalidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {categorias.map((c) => (
-                    <tr key={c.id}>
-                        <td>{c.descricao}</td>
-                        <td className="text-center">
-                        {finalidadeLabel[c.finalidade] ?? "Desconhecida"}
-                        </td>
-                    </tr>))}
-                </tbody>
-            </table>
-        );
-    }
+    const colunas: Column<Categoria>[] = [
+        { header: "Descrição", accessor: "descricao" },
+        { header: "Finalidade",
+            accessor: (row) => finalidadeLabel[row.finalidade] ?? "—"
+        }
+    ];
 
+    function renderTabela() {
+        return (<GenericTable columns={colunas} data={categorias} />);
+    }
+    
     return (
         <div>
             <div className="mb-3"> 
                 <h1>Lista Categorias</h1>
-                <div class="d-flex justify-content-end">
+                <div className="d-flex justify-content-end">
                     <button className="btn btn-warning text-end" style={{ padding: '3px 8px', fontSize: '13px' }} onClick={() => setShowModal(true)}>
                         Inserir Categoria
                     </button>

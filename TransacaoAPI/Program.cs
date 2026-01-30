@@ -37,9 +37,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactPolicy", policy => 
     { 
-        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        var urlBase = builder.Configuration["ApiSettings:UrlBase"];
+        policy.WithOrigins(urlBase, urlBase).AllowAnyHeader().AllowAnyMethod();
     });
 });
 
