@@ -2,14 +2,14 @@
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { GenericTable } from "../GenericTable"
-import  {Column , Pessoa} from "../interface/types";
+import  {Column , PessoaRequest, PessoaResponse} from "../interface/types";
 
 export default function Pessoa() {
     const [pessoas, setPessoas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const nomeRef = useRef(null);
-    const idadeRef = useRef(null);
+    const nomeRef = useRef<HTMLInputElement | null>(null);
+    const idadeRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
        carregarPessoas();
@@ -22,15 +22,31 @@ export default function Pessoa() {
         setLoading(false);
     }
 
-    async function salvarPessoa() {
-        const nome = nomeRef.current;
-        const idade = idadeRef.current;
-        
-        if (!nome || !idade) {
+    async function salvarPessoa(): Promise<void> {
+        const nomeInput = nomeRef.current;
+        const idadeInput = Number(idadeRef.current?.value.trim());
+
+        if ((!idadeInput || isNaN(idadeInput)) 
+            && (!nomeInput || nomeInput.value.trim() === "")) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
+
+            return;
+        }
+
+        const pessoa: PessoaRequest = {
+            nome: nomeInput!.value.trim(),
+            idade: Number(idadeInput),
+        };
+
+        if (!pessoa.nome || pessoa.idade <= 0) {
+            toast.warning("Nome e Idade precisam ser preenchidos!", {
+                style: { background: "#ffc107", color: "#000" },
+                position: "bottom-right",
+            });
+            
             return;
         }
 
@@ -38,17 +54,14 @@ export default function Pessoa() {
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                nome: nome,
-                idade: idade, 
-            }),
+            body: JSON.stringify(pessoa),
         });
 
         if (!response.ok) {
-            const data = await response.json();
+            const data: { error?: string } = await response.json();
             toast.warning(data?.error || "Erro ao salvar Pessoa", {
-                style: { background: "#ffc107", color: "#000" },
-                position: "bottom-right",
+            style: { background: "#ffc107", color: "#000" },
+            position: "bottom-right",
             });
             return;
         }
@@ -56,14 +69,14 @@ export default function Pessoa() {
         setShowModal(false);
         nomeRef.current = null;
         idadeRef.current = null;
-        
+
         toast.success("Pessoa cadastrada com Sucesso!", {
             style: { background: "#228B22", color: "#000000" },
             position: "bottom-right",
         });
 
         carregarPessoas();
-    }
+   }
 
     async function removerPessoa(pessoa: { id: number; nome: string}) {
         const result = await Swal.fire({
@@ -86,7 +99,7 @@ export default function Pessoa() {
         carregarPessoas();
     }
    
-    const colunas: Column<Pessoa>[] = 
+    const colunas: Column<PessoaResponse>[] = 
     [
         { header: "Nome", accessor: "nome"},
         { header: "Idade", accessor: "idade"},

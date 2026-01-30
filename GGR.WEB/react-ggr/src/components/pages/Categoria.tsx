@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { GenericTable } from "../GenericTable"
-import  {Column , Categoria } from "../interface/types";
+import  {Column , CategoriaRequest, CategoriaResponse } from "../interface/types";
 
 const finalidadeLabel: Record<number, string> = { 1: "Receita", 2: "Despesa", 3: "Ambas" };
 
@@ -9,8 +9,8 @@ export default function Categoria() {
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const descricaoRef = useRef(null);
-    const finalidadeRef = useRef(null);
+    const descricaoRef = useRef<HTMLInputElement | null>(null);
+    const finalidadeRef = useRef<HTMLSelectElement | null>(null);
 
     useEffect(() => {
         carregarCategorias();
@@ -23,34 +23,48 @@ export default function Categoria() {
         setLoading(false);
     }
 
-    async function salvarCategoria() {
-        const descricao = descricaoRef;
-        const finalidade = Number(finalidadeRef);
+    async function salvarCategoria(): Promise<void> {
+        const descricaoInput = descricaoRef.current;
+        const finalidadeInput = Number(finalidadeRef.current?.value.trim());
 
-        if (!descricao || finalidade === 0) {
+         if ((!descricaoInput || descricaoInput.value.trim() === "")
+             && (!finalidadeInput || finalidadeInput === 0)) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
+
             return;
         }
-
+        
+        const categoria: CategoriaRequest = {
+            descricao: descricaoInput!.value.trim(),
+            finalidade: Number(finalidadeInput) 
+        };
+        
+        if (!categoria.descricao || categoria.finalidade === 0 ) {
+            toast.warning("Descrição e Finalidade precisam ser preenchidos!", {
+                style: { background: "#ffc107", color: "#000" },
+                position: "bottom-right",
+            });
+            
+            return;
+        }
+    
         const response = await fetch('https://localhost:7188/api/v1/Categoria/create',
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                descricao: descricao,
-                finalidade: finalidade
-            }),
+            body: JSON.stringify(categoria),
         });
 
         if (!response.ok) {
-            const data = await response.json();
-            toast.warning(data?.error || "Erro ao salvar categoria", {
+            const data: { error?: string } = await response.json();
+            toast.warning(data?.error || "Erro ao salvar Pessoa", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
+
             return;
         }
 
@@ -66,7 +80,7 @@ export default function Categoria() {
         carregarCategorias();
     }
 
-    const colunas: Column<Categoria>[] = [
+    const colunas: Column<CategoriaResponse>[] = [
         { header: "Descrição", accessor: "descricao" },
         { header: "Finalidade",
             accessor: (row) => finalidadeLabel[row.finalidade] ?? "—"
