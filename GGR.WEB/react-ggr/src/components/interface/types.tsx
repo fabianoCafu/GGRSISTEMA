@@ -5,11 +5,17 @@ export interface Column<T> {
     render?: (value: any, row: T) => React.ReactNode;
 }
 
-export interface Pessoa {
+export interface PessoaResponse {
     id: number;
     nome: string;
     idade: number;
 }
+
+export interface PessoaRequest { 
+    nome: string;
+    idade: number;
+}
+
 
 export interface Categoria {
     id: number;
