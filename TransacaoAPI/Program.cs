@@ -38,10 +38,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("ReactPolicy", policy => 
     { 
         var urlBase = builder.Configuration["ApiSettings:UrlBase"];
-
-        policy.WithOrigins(urlBase, urlBase)
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins(urlBase, urlBase).AllowAnyHeader().AllowAnyMethod();
     });
 });
 
