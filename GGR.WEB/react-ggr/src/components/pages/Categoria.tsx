@@ -66,35 +66,13 @@ export default function Categoria() {
         carregarCategorias();
     }
 
-    //const finalidadeLabel = { 1: "Receita", 2: "Despesa", 3: "Ambas"};
-    //const finalidadeLabel: Record<number, string> = { 1: "Receita", 2: "Despesa", 3: "Ambas"};
+    const colunas: Column<Categoria>[] = [
+        { header: "Descrição", accessor: "descricao" },
+        { header: "Finalidade",
+            accessor: (row) => finalidadeLabel[row.finalidade] ?? "—"
+        }
+    ];
 
-     
-
-   //const finalidadeLabel: Record<number string> = { 1: "Receita", 2: "Despesa", 3: "Ambas" };
-
-   //type Finalidade = 1 | 2 | 3;
-
-   //const finalidadeLabel: Record<Finalidade, string> = { 1: "Receita", 2: "Despesa", 3: "Ambas" };
-
-   const colunas: Column<Categoria>[] = [
-   { header: "Descrição", accessor: "descricao" },
-     {
-       header: "Finalidade",
-       accessor: (row) => finalidadeLabel[row.finalidade] ?? "—"
-     }
-   ];
-
-
-
-    // const colunas: Column<Categoria>[] = 
-    // [
-    //     { header: "Descrição", accessor: "descricao"},
-    //     { header: "Finalidade",
-    //         accessor: (row : Categoria) => finalidadeLabel[Number(row.finalidade)] ?? "—"
-    //     }
-    // ];
-    
     function renderTabela() {
         return (<GenericTable columns={colunas} data={categorias} />);
     }
