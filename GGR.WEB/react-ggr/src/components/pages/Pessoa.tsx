@@ -1,6 +1,8 @@
 ﻿import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { GenericTable } from "../GenericTable"
+import  {Column , Pessoa} from "../interface/types";
 
 export default function Pessoa() {
     const [pessoas, setPessoas] = useState([]);
@@ -37,8 +39,8 @@ export default function Pessoa() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                nome: nome.value,
-                idade: idade.value, 
+                nome: nome,
+                idade: idade, 
             }),
         });
 
@@ -52,8 +54,8 @@ export default function Pessoa() {
         }
 
         setShowModal(false);
-        nomeRef.current.value = "";
-        idadeRef.current.value = "";
+        nomeRef.current = null;
+        idadeRef.current = null;
         
         toast.success("Pessoa cadastrada com Sucesso!", {
             style: { background: "#228B22", color: "#000000" },
@@ -63,7 +65,7 @@ export default function Pessoa() {
         carregarPessoas();
     }
 
-    async function removerPessoa(pessoa) {
+    async function removerPessoa(pessoa: { id: number; nome: string}) {
         const result = await Swal.fire({
             title: "Tem certeza?",
             text: `Remover ${pessoa.nome}?`,
@@ -83,36 +85,27 @@ export default function Pessoa() {
 
         carregarPessoas();
     }
+   
+    const colunas: Column<Pessoa>[] = 
+    [
+        { header: "Nome", accessor: "nome"},
+        { header: "Idade", accessor: "idade"},
+        { header: "Ações",
+            render: (_: any, row: { id: number; nome: string }) => ( 
+              <div className="d-flex justify-content-center gap-2"> 
+                <button className="btn btn-danger btn-sm" onClick={() => removerPessoa(row)} style={{ padding: '3px 8px', fontSize: '13px' }}>
+                  Remover
+                </button>
+              </div>    
+            ),
+        },
+    ];
 
     function renderTabela() {
-        return (
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Idade</th>
-                        <th className="text-center">Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pessoas.map((pessoa) => (
-                    <tr key={pessoa.id}>
-                        <td>{pessoa.nome}</td>
-                        <td>{pessoa.idade}</td>
-                        <td className="text-center">
-                            <div className="d-flex justify-content-center gap-2"> 
-                                <button className="btn btn-danger btn-sm" style={{ padding: '3px 8px', fontSize: '13px' }} onClick={() => removerPessoa(pessoa)}>
-                                    Remover
-                                </button>
-                            </div>
-                        </td>
-                    </tr>))}
-                </tbody>
-            </table>
-        );
+        return (<GenericTable columns={colunas} data={pessoas} />);
     }
 
-  return (
+    return (
       <div>
           <div className="mb-3"> 
               <h1>Lista Pessoas</h1>
@@ -127,7 +120,7 @@ export default function Pessoa() {
                           <div className="spinner-border text-secondary" />
                           <div>Carregando Pessoas...</div>
                       </div>
-          ) : ( renderTabela())}
+          ) : (renderTabela())}
 
           {showModal && (
               <div className="modal fade show d-block">

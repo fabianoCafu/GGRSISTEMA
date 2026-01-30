@@ -2,16 +2,18 @@
 import { toast } from "react-toastify";
 import { SelectPessoa } from "../SelectPessoa";
 import { SelectCategoria } from "../SelectCategoria";
+import { GenericTable } from "../GenericTable"
+import  {Column , Pessoa, Categoria, Transacao} from "../interface/types";
 
-const tipoTransacao = { 0: "Ambos", 1: "Receita", 2: "Despesa", };
+const tipoTransacao: Record<number, string> = { 0: "Ambos", 1: "Receita", 2: "Despesa" };
 
 export default function Transacao() {
     const [transacoes, setTransacoes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false); 
-    const pessoaRef = useRef(null);
-    const categoriaRef = useRef(null);
-    const valorRef = useRef(null);
+    const pessoaRef = useRef<Pessoa | null>(null);
+    const categoriaRef = useRef<Categoria>(null);
+    const valorRef = useRef(null); 
     const tipoRef = useRef(null);
 
     useEffect(() => {
@@ -24,20 +26,20 @@ export default function Transacao() {
         setTransacoes(data);
         setLoading(false);
     }
+ 
+    function selecionarPessoa(pessoa: Pessoa) {
+        pessoaRef.current = pessoa;
+    } 
 
-    function selecionarPessoa(opcao) {
-        pessoaRef.current = opcao; 
-    }
-
-    function selecionarCategoria(opcao) {
-        categoriaRef.current = opcao;
+    function selecionarCategoria(categoria: Categoria) {
+        categoriaRef.current = categoria;
     }
   
     async function salvarTransacao() {
-        const pessoa = pessoaRef.current;
-        const categoria = categoriaRef.current;
-        const valor = valorRef.current?.value;
-        const tipo = Number(tipoRef.current?.value);
+        const pessoa = pessoaRef.current?.id;
+        const categoria = categoriaRef.current?.id;
+        const valor = valorRef.current;
+        const tipo = Number(tipoRef.current);
 
         if (!pessoa || !categoria || !valor || tipo === 0) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
@@ -52,8 +54,8 @@ export default function Transacao() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                pessoaId: pessoa.value,
-                categoriaId: categoria.value,
+                pessoaId: pessoa,
+                categoriaId: categoria,
                 valor: Number(valor),
                 tipo,
             }),
@@ -69,8 +71,8 @@ export default function Transacao() {
         }
 
         setShowModal(false);
-        valorRef.current.value = "";
-        tipoRef.current.value = 0;
+        valorRef.current = null;
+        tipoRef.current = null;
         pessoaRef.current = null;
         categoriaRef.current = null;
 
@@ -82,29 +84,17 @@ export default function Transacao() {
         carregarTransacoes();
     }
 
-  function renderTabela() {
-      return (
-          <table className="table table-striped">
-              <thead>
-                  <tr>
-                      <th>Nome</th>
-                      <th>Categoria</th>
-                      <th>Valor</th>
-                      <th>Tipo</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {transacoes.map((t) => (
-                  <tr key={t.id}>
-                      <td>{t.pessoa.nome}</td>
-                      <td>{t.categoria.descricao}</td>
-                      <td>{t.valor}</td>
-                      <td>{tipoTransacao[t.tipo] ?? "Desconhecida"}</td>
-                  </tr>
-                  ))}
-              </tbody>
-          </table>);
-  }
+    const colunas: Column<Transacao>[] =
+    [
+        { header: "Nome", accessor: (row ) => row.pessoa?.nome ?? "" },
+        { header: "Categoria", accessor: (row) => row.categoria?.descricao ?? ""}, 
+        { header: "Valor", accessor: "valor"},
+        { header: "Tipo", accessor: (row: Transacao) => tipoTransacao[row.tipo] ?? "-" }
+   ];
+
+    function renderTabela() {
+        return (<GenericTable columns={colunas} data={transacoes} />);
+    }
 
   return (
       <div>
@@ -134,11 +124,11 @@ export default function Transacao() {
                       <div className="modal-body">
                           <div className="mb-3">
                               <label className="form-label">Pessoa *</label>
-                              <SelectPessoa onChange={selecionarPessoa} />
+                              <SelectPessoa onChange={selecionarPessoa} /> 
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Categoria *</label>
-                              <SelectCategoria onChange={selecionarCategoria} />
+                               <SelectCategoria onChange={selecionarCategoria} />
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Valor *</label>
