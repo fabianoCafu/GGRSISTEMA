@@ -24,26 +24,29 @@ export default function Pessoa() {
 
     async function salvarPessoa(): Promise<void> {
         const nomeInput = nomeRef.current;
-        const idadeInput = idadeRef.current;
+        const idadeInput = Number(idadeRef.current?.value.trim());
 
-        if (!nomeInput || !idadeInput) {
+        if ((!idadeInput || isNaN(idadeInput)) 
+            && (!nomeInput || nomeInput.value.trim() === "")) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
-            style: { background: "#ffc107", color: "#000" },
+                style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
+
             return;
         }
 
         const pessoa: PessoaRequest = {
-            nome: nomeInput.value.trim(),
-            idade: Number(idadeInput.value),
+            nome: nomeInput!.value.trim(),
+            idade: Number(idadeInput),
         };
 
-        if (!pessoa.nome || isNaN(pessoa.idade)) {
-            toast.warning("Nome e idade precisam ser preenchidos!", {
+        if (!pessoa.nome || pessoa.idade <= 0) {
+            toast.warning("Nome e Idade precisam ser preenchidos!", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
+            
             return;
         }
 
@@ -64,9 +67,8 @@ export default function Pessoa() {
         }
 
         setShowModal(false);
-        
-        nomeInput.value = "";
-        idadeInput.value = "";
+        nomeRef.current = null;
+        idadeRef.current = null;
 
         toast.success("Pessoa cadastrada com Sucesso!", {
             style: { background: "#228B22", color: "#000000" },
@@ -75,7 +77,6 @@ export default function Pessoa() {
 
         carregarPessoas();
    }
-
 
     async function removerPessoa(pessoa: { id: number; nome: string}) {
         const result = await Swal.fire({

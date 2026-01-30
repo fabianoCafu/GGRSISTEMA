@@ -16,9 +16,13 @@ export interface PessoaRequest {
     idade: number;
 }
 
-
-export interface Categoria {
+export interface CategoriaResponse {
     id: number;
+    descricao: string;
+    finalidade: number;
+}
+
+export interface CategoriaRequest {
     descricao: string;
     finalidade: number;
 }
