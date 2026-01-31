@@ -40,3 +40,14 @@ export interface Transacao {
     valor: number
     tipo: number
 }
+
+export interface SaldoLiquidoCategoria {
+    categoriaId: number;
+    nome: string;
+    receitas: number;
+    despesas: number;
+    saldo: number;
+    totalReceitas: number;
+    totalDespesas: number;
+    totalSaldo: number;
+}

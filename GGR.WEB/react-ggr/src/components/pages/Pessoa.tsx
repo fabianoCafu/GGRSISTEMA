@@ -42,7 +42,7 @@ export default function Pessoa() {
         };
 
         if (!pessoa.nome || pessoa.idade <= 0) {
-            toast.warning("Nome e Idade precisam ser preenchidos!", {
+            toast.warning("Nome e Idade MAIOR que 0 precisam ser preenchidos!", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });

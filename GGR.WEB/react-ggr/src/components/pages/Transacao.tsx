@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { SelectPessoa } from "../SelectPessoa";
 import { SelectCategoria } from "../SelectCategoria";
 import { GenericTable } from "../GenericTable"
-import  {Column , Pessoa, Categoria, Transacao} from "../interface/types";
+import  {Column , PessoaResponse, CategoriaResponse, Transacao} from "../interface/types";
 
 const tipoTransacao: Record<number, string> = { 0: "Ambos", 1: "Receita", 2: "Despesa" };
 
@@ -11,8 +11,8 @@ export default function Transacao() {
     const [transacoes, setTransacoes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false); 
-    const pessoaRef = useRef<Pessoa | null>(null);
-    const categoriaRef = useRef<Categoria>(null);
+    const pessoaRef = useRef<PessoaResponse | null>(null);
+    const categoriaRef = useRef<CategoriaResponse>(null);
     const valorRef = useRef(null); 
     const tipoRef = useRef(null);
 
@@ -27,11 +27,11 @@ export default function Transacao() {
         setLoading(false);
     }
  
-    function selecionarPessoa(pessoa: Pessoa) {
+    function selecionarPessoa(pessoa: PessoaResponse) {
         pessoaRef.current = pessoa;
     } 
 
-    function selecionarCategoria(categoria: Categoria) {
+    function selecionarCategoria(categoria: CategoriaResponse) {
         categoriaRef.current = categoria;
     }
   
