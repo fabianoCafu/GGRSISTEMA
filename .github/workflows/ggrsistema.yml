@@ -1,14 +1,31 @@
 name: CI-CD GGRSISTEMA
+
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
+  sync:
+    name: Sync GitHub → GitLab
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to GitLab
+        run: |
+          git remote add gitlab https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/fabianoCafu/GGRSISTEMA.git
+          git push gitlab --all
+          git push gitlab --tags
+
   build:
     name: Build GGR
     runs-on: ubuntu-latest
+    needs: sync
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,7 +45,6 @@ jobs:
     name: Teste Unitário
     runs-on: ubuntu-latest
     needs: build
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,7 +64,6 @@ jobs:
     name: Publish NuGet
     runs-on: ubuntu-latest
     needs: [build, test]
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
