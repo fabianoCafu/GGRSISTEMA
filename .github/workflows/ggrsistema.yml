@@ -1,4 +1,4 @@
-name: CI-CD GGRSISTEMA
+name: INTEGRAÇAO CONTÍNUA 
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   sync:
-    name: Sync GitHub → GitLab
+    name: Sync GitLab
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,7 +23,7 @@ jobs:
           git push gitlab --tags
 
   build:
-    name: Build GGR
+    name: Build GGRSISTEMAS
     runs-on: ubuntu-latest
     needs: sync
     steps:
@@ -42,7 +42,7 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
   test:
-    name: Teste Unitário
+    name: TESTE DE UNIDADE
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -61,7 +61,7 @@ jobs:
         run: dotnet test --configuration Release
 
   nuget:
-    name: Publish NuGet
+    name: PUBLISH NUGET
     runs-on: ubuntu-latest
     needs: [build, test]
     steps:
