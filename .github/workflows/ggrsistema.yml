@@ -8,7 +8,7 @@ on:
 
 jobs:
   sync:
-    name: Sync GitLab
+    name: SYNC GITLAB
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,7 +23,7 @@ jobs:
           git push gitlab --tags
 
   build:
-    name: Build GGRSISTEMAS
+    name: BUILD GGRSISTEMAS
     runs-on: ubuntu-latest
     needs: sync
     steps:
