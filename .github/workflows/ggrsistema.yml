@@ -64,7 +64,7 @@ jobs:
   sync:
     name: SYNC GITLAB
     runs-on: ubuntu-latest
-    needs: [build, test, nuget]   # 👈 AGORA É O ÚLTIMO
+    needs: [build, test, nuget]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
