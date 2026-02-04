@@ -1,3 +1,4 @@
+import { SingleValue } from "react-select";
 
 export interface Column<T> {
     header: string;
@@ -69,3 +70,23 @@ export interface SaldoLiquidoPessoa {
     totalDespesas: number;
     totalSaldo: number;
 }
+
+export interface Categoria {
+  id: number;
+  descricao: string;
+}
+
+export interface Pessoa {
+  id: number;
+  nome: string;
+}
+
+export interface OptionType {
+  value: number;
+  label: string;
+}
+
+export interface SelectProps {
+  onChange: (option: SingleValue<OptionType>) => void;
+}
+

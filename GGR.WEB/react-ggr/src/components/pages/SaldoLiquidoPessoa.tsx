@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import  { SaldoLiquidoPessoa } from "../../interface/types";
+import { useEffect, useState } from "react";
+import { SaldoLiquidoPessoa } from "../../interface/types";
+import { BASE_URLS } from '../../config/api.config';
 
 export default function SaldoLiquidoPessoa() {
 
@@ -12,7 +13,7 @@ export default function SaldoLiquidoPessoa() {
 
     async function carregarSaldosLiquido() { 
         try {
-            const response = await fetch('https://localhost:7070/api/v1/Transacao/getnetbalanceperson');
+            const response = await fetch(`${BASE_URLS.Transacao}/Transacao/getnetbalanceperson`);
             const data = await response.json();
             setSaldoLiquidos(data);
         } catch (error) {

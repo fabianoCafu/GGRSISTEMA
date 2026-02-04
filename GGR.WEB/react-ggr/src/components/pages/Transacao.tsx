@@ -123,11 +123,11 @@ export default function Transacao() {
                       <div className="modal-body">
                           <div className="mb-3">
                               <label className="form-label">Pessoa *</label>
-                              <SelectPessoa onChange={selecionarPessoa} /> 
+                              <SelectPessoa onChange={(option) => { option?.value, option?.label }}/>
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Categoria *</label>
-                               <SelectCategoria onChange={selecionarCategoria} />
+                              <SelectCategoria onChange={(option) => { option?.value, option?.label }}/>
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Valor *</label>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import  {SaldoLiquidoCategoria} from "../../interface/types";
-
+import { useEffect, useState } from "react";
+import { SaldoLiquidoCategoria } from "../../interface/types";
+import { BASE_URLS } from '../../config/api.config';
 
 export default function SaldoLiquidoCategoria() {
     const [saldoLiquidos, setSaldoLiquidos] = useState<SaldoLiquidoCategoria[]>([]);
@@ -11,8 +11,8 @@ export default function SaldoLiquidoCategoria() {
     }, []);
 
     async function carregarSaldosLiquido(): Promise<void> { 
-        try {
-            const response = await fetch("https://localhost:7070/api/v1/Transacao/getnetbalancecategory");
+        try { 
+            const response = await fetch(`${BASE_URLS.Transacao}/Transacao/getnetbalancecategory`);
             const data: SaldoLiquidoCategoria[] = await response.json();
             setSaldoLiquidos(data);
         } catch (error) {
