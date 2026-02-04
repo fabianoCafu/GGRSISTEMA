@@ -27,7 +27,14 @@ export interface CategoriaRequest {
     finalidade: number;
 }
 
-export interface Transacao {
+export interface TransacaoRequest { 
+    pessoa: { id: number }
+    categoria: { id: number }
+    valor: number
+    tipo: number
+}
+
+export interface TransacaoResponse {
     id: number;
     pessoa: {
         id: number
@@ -43,6 +50,17 @@ export interface Transacao {
 
 export interface SaldoLiquidoCategoria {
     categoriaId: number;
+    nome: string;
+    receitas: number;
+    despesas: number;
+    saldo: number;
+    totalReceitas: number;
+    totalDespesas: number;
+    totalSaldo: number;
+}
+
+export interface SaldoLiquidoPessoa {
+    pessoaId: number;
     nome: string;
     receitas: number;
     despesas: number;

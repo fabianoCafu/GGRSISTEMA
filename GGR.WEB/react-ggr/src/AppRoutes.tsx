@@ -1,8 +1,9 @@
-import { Pessoa } from "./components/pages/Pessoa";
-import { Categoria } from "./components/pages/Categoria";
-import { Transacao } from "./components/pages/Transacao";
-import { SaldoLiquidoPessoa } from "./components/pages/Transacao";
-import { Home } from "./Home";
+import  Pessoa  from "./components/pages/Pessoa";
+import  Categoria  from "./components/pages/Categoria";
+import  Transacao  from "./components/pages/Transacao";
+import  SaldoLiquidoPessoa from "./components/pages/Transacao";
+import  SaldoLiquidoCategoria from "./components/pages/Transacao";
+import  Home  from "./components/pages/Home";
 
 const AppRoutes = [
     {

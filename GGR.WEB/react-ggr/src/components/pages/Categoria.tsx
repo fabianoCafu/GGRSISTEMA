@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { GenericTable } from "../GenericTable"
-import  {Column , CategoriaRequest, CategoriaResponse } from "../interface/types";
+import  {Column , CategoriaRequest, CategoriaResponse } from "../../interface/types";
+import { CategoriaService } from "../../api/CategoriaService";
 
 const finalidadeLabel: Record<number, string> = { 1: "Receita", 2: "Despesa", 3: "Ambas" };
 
@@ -17,18 +18,17 @@ export default function Categoria() {
     }, []);
 
     async function carregarCategorias() {
-        const response = await fetch("https://localhost:7188/api/v1/Categoria/list");
-        const data = await response.json();
-        setCategorias(data);
+        const response = await CategoriaService.list(); 
+        setCategorias(response);
         setLoading(false);
     }
 
-    async function salvarCategoria(): Promise<void> {
+    async function salvarCategoria() {
         const descricaoInput = descricaoRef.current;
         const finalidadeInput = Number(finalidadeRef.current?.value.trim());
 
-         if ((!descricaoInput || descricaoInput.value.trim() === "")
-             && (!finalidadeInput || finalidadeInput === 0)) {
+        if ((!descricaoInput || descricaoInput.value.trim() === "")
+            && (!finalidadeInput || finalidadeInput === 0)) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
@@ -50,17 +50,12 @@ export default function Categoria() {
             
             return;
         }
-    
-        const response = await fetch('https://localhost:7188/api/v1/Categoria/create',
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(categoria),
-        });
+         
+        const response = await CategoriaService.create(categoria); 
 
-        if (!response.ok) {
-            const data: { error?: string } = await response.json();
-            toast.warning(data?.error || "Erro ao salvar Pessoa", {
+        if (!response?.id) {
+            const data: { error?: string } = response;
+            toast.warning(data?.error || "Erro ao salvar Categoria", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });

@@ -2,7 +2,8 @@
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { GenericTable } from "../GenericTable"
-import  {Column , PessoaRequest, PessoaResponse} from "../interface/types";
+import  {Column , PessoaRequest, PessoaResponse} from "../../interface/types";
+import { PessoaService } from "../../api/PessoaService";
 
 export default function Pessoa() {
     const [pessoas, setPessoas] = useState([]);
@@ -16,13 +17,12 @@ export default function Pessoa() {
     }, []);
 
     async function carregarPessoas() {
-        const response = await fetch("https://localhost:7143/api/v1/Pessoa/list");
-        const data = await response.json();
-        setPessoas(data);
+        const response = await PessoaService.list(); 
+        setPessoas(response);
         setLoading(false);
     }
 
-    async function salvarPessoa(): Promise<void> {
+    async function salvarPessoa(): Promise<void>{
         const nomeInput = nomeRef.current;
         const idadeInput = Number(idadeRef.current?.value.trim());
 
@@ -50,19 +50,15 @@ export default function Pessoa() {
             return;
         }
 
-        const response = await fetch("https://localhost:7143/api/v1/Pessoa/create",
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(pessoa),
-        });
+        const response = await PessoaService.create(pessoa); 
 
-        if (!response.ok) {
-            const data: { error?: string } = await response.json();
+        if (!response?.id) {
+            const data: { error?: string } = response;
             toast.warning(data?.error || "Erro ao salvar Pessoa", {
-            style: { background: "#ffc107", color: "#000" },
-            position: "bottom-right",
+                style: { background: "#ffc107", color: "#000" },
+                position: "bottom-right",
             });
+
             return;
         }
 
@@ -94,7 +90,12 @@ export default function Pessoa() {
             return;
         }
 
-        await fetch(`https://localhost:7143/api/v1/Pessoa/delete/${pessoa.id}`,{ method: "DELETE" });
+        await PessoaService.delete(pessoa.id)
+        
+        toast.success("Pessoa removida com Sucesso!", {
+            style: { background: "#228B22", color: "#000000" },
+            position: "bottom-right",
+        });
 
         carregarPessoas();
     }

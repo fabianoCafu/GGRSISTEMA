@@ -1,5 +1,5 @@
 import React from "react";
-import { Column } from "./interface/types";
+import { Column } from "../interface/types";
 
 interface GenericTableProps<T> {
     columns: Column<T>[];

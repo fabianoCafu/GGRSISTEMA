@@ -3,7 +3,8 @@ import { toast } from "react-toastify";
 import { SelectPessoa } from "../SelectPessoa";
 import { SelectCategoria } from "../SelectCategoria";
 import { GenericTable } from "../GenericTable"
-import  {Column , PessoaResponse, CategoriaResponse, Transacao} from "../interface/types";
+import  {Column , TransacaoResponse, TransacaoRequest, PessoaResponse, CategoriaResponse} from "../../interface/types";
+import { TransacaoService } from "../../api/TransacaoService";
 
 const tipoTransacao: Record<number, string> = { 0: "Ambos", 1: "Receita", 2: "Despesa" };
 
@@ -21,9 +22,8 @@ export default function Transacao() {
     }, []);
 
     async function carregarTransacoes() {
-        const response = await fetch("https://localhost:7070/api/v1/Transacao/list");
-        const data = await response.json();
-        setTransacoes(data);
+        const response = await TransacaoService.list();  
+        setTransacoes(response);
         setLoading(false);
     }
  
@@ -36,37 +36,36 @@ export default function Transacao() {
     }
   
     async function salvarTransacao() {
-        const pessoa = pessoaRef.current?.id;
-        const categoria = categoriaRef.current?.id;
-        const valor = valorRef.current;
+        const pessoaId = pessoaRef.current?.id;
+        const categoriaId = categoriaRef.current?.id;
+        const valor = Number(valorRef.current);
         const tipo = Number(tipoRef.current);
 
-        if (!pessoa || !categoria || !valor || tipo === 0) {
+        const transacao: TransacaoRequest = {
+            pessoa: { id: pessoaId! },
+            categoria: { id: categoriaId! },
+            valor: valor,
+            tipo: tipo
+        }
+
+        if (!pessoaId || !categoriaId || !valor || tipo === 0) {
             toast.warning("Preencha todos os campos obrigatórios ( * ).", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
+            
             return;
         }
 
-        const response = await fetch("https://localhost:7070/api/v1/Transacao/create",
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                pessoaId: pessoa,
-                categoriaId: categoria,
-                valor: Number(valor),
-                tipo,
-            }),
-        });
+        const response = await TransacaoService.create(transacao); 
 
-        if (!response.ok) {
-            const data = await response.json();
+        if (!response?.id) {
+            const data: { error?: string } = response;
             toast.warning(data?.error || "Erro ao salvar transação", {
                 style: { background: "#ffc107", color: "#000" },
                 position: "bottom-right",
             });
+
             return;
         }
 
@@ -84,12 +83,12 @@ export default function Transacao() {
         carregarTransacoes();
     }
 
-    const colunas: Column<Transacao>[] =
+    const colunas: Column<TransacaoResponse>[] =
     [
         { header: "Nome", accessor: (row ) => row.pessoa?.nome ?? "" },
         { header: "Categoria", accessor: (row) => row.categoria?.descricao ?? ""}, 
         { header: "Valor", accessor: "valor"},
-        { header: "Tipo", accessor: (row: Transacao) => tipoTransacao[row.tipo] ?? "-" }
+        { header: "Tipo", accessor: (row: TransacaoResponse) => tipoTransacao[row.tipo] ?? "-" }
    ];
 
     function renderTabela() {

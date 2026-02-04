@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import  { SaldoLiquidoPessoa } from "../../interface/types";
 
 export default function SaldoLiquidoPessoa() {
-    const [saldoLiquidos, setSaldoLiquidos] = useState([]);
-    const [loading, setLoading] = useState(true);
+
+    const [saldoLiquidos, setSaldoLiquidos] = useState<SaldoLiquidoPessoa[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {  
         carregarSaldosLiquido();   
@@ -60,8 +62,8 @@ export default function SaldoLiquidoPessoa() {
                         </>
                     ) : (
                     <tr>
-                        <td colSpan="4" className="text-center">
-                        Nenhum saldo encontrado
+                        <td colSpan={4} className="text-center">
+                            Nenhum saldo encontrado
                         </td>
                     </tr>
                     )}

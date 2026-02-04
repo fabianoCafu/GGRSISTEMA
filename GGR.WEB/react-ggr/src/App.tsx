@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Layout } from './components/Layout';
+import { Layout } from './Layout';
 import { ToastContainer } from "react-toastify";
 import Home  from './components/pages/Home';
 import Pessoa from "./components/pages/Pessoa";
