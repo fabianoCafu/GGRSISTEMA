@@ -62,13 +62,13 @@ Caso se sinta à vontade, pode-se implementar recursos adicionais desde que os m
 
 
 * Tecnologias
-- .Net 6
-- ORM Entity Framework Core
-- Arquitetua DDD
-- React 19.2.0
-- SGDB MySQL Worbench 8.0 CE
-- MySql 8. 0. 4
-- Patterns
+-> .Net 6
+-> ORM Entity Framework Core
+-> Arquitetua DDD
+-> React 19.2.0
+-> SGDB MySQL Worbench 8.0 CE
+-> MySql 8. 0. 4
+-> Patterns
   IRepository
   Injeção de Dependência
   Result Pattern
@@ -80,6 +80,7 @@ dotnet ef database update --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Inf
 
 
  
+
 
 
 
