@@ -60,10 +60,16 @@ Observações:
 Solicitamos gentilmente que quaisquer referências à Organização sejam removidas de todos os arquivos antes da publicação.
 Caso se sinta à vontade, pode-se implementar recursos adicionais desde que os mesmos não afetem o funcionamento dos já especificados nesse formulário.
 
-Banco de Dados Utilizado!
-
-* DataBase 
-MySql 8. 0. 4
+* Tecnologias & Patterns
+ - .Net 6
+ - ORM Entity Framework Core
+ - Arquitetua DDD
+ - React 19.2.0
+ - SGDB MySQL Worbench 8.0 CE
+ - MySql 8. 0. 4 
+ - IRepository
+ - Injeção de Dependência
+ - Result Pattern
 
 * Migration
 dotnet ef migrations add CreateGGRDataBase --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
@@ -72,6 +78,10 @@ dotnet ef database update --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Inf
 
 
  
+
+
+
+
 
 
 
