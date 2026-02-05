@@ -3,7 +3,6 @@ import { SaldoLiquidoPessoa } from "../../interface/types";
 import { BASE_URLS } from '../../config/api.config';
 
 export default function SaldoLiquidoPessoa() {
-
     const [saldoLiquidos, setSaldoLiquidos] = useState<SaldoLiquidoPessoa[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 

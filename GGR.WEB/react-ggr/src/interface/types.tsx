@@ -7,7 +7,7 @@ export interface Column<T> {
 }
 
 export interface PessoaResponse {
-    id: number;
+    id: string;
     nome: string;
     idade: number;
 }
@@ -18,7 +18,7 @@ export interface PessoaRequest {
 }
 
 export interface CategoriaResponse {
-    id: number;
+    id: string;
     descricao: string;
     finalidade: number;
 }
@@ -29,8 +29,8 @@ export interface CategoriaRequest {
 }
 
 export interface TransacaoRequest { 
-    pessoa: { id: number }
-    categoria: { id: number }
+    pessoaId: string;    //{ id: string }
+    categoriaId: string; //{ id: string }
     valor: number
     tipo: number
 }
@@ -38,11 +38,11 @@ export interface TransacaoRequest {
 export interface TransacaoResponse {
     id: number;
     pessoa: {
-        id: number
+        id: string
         nome: string
     }
     categoria: {
-        id: number
+        id: string
         descricao: string
     }
     valor: number
@@ -50,7 +50,7 @@ export interface TransacaoResponse {
 }
 
 export interface SaldoLiquidoCategoria {
-    categoriaId: number;
+    categoriaId: string;
     nome: string;
     receitas: number;
     despesas: number;
@@ -61,7 +61,7 @@ export interface SaldoLiquidoCategoria {
 }
 
 export interface SaldoLiquidoPessoa {
-    pessoaId: number;
+    pessoaId: string;
     nome: string;
     receitas: number;
     despesas: number;
@@ -72,17 +72,17 @@ export interface SaldoLiquidoPessoa {
 }
 
 export interface Categoria {
-  id: number;
+  id: string;
   descricao: string;
 }
 
 export interface Pessoa {
-  id: number;
+  id: string;
   nome: string;
 }
 
 export interface OptionType {
-  value: number;
+  value: string;
   label: string;
 }
 

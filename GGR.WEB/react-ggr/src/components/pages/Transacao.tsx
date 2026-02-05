@@ -9,13 +9,14 @@ import { TransacaoService } from "../../api/TransacaoService";
 const tipoTransacao: Record<number, string> = { 0: "Ambos", 1: "Receita", 2: "Despesa" };
 
 export default function Transacao() {
-    const [transacoes, setTransacoes] = useState([]);
+    const [transacoes, setTransacoes] = useState([]); 
+
+    const [pessoaId, setPessoaId] = useState<string | null>(null);
+    const [categoriaId, setCategoriaId] = useState<string | null>(null);
+    const valorRef = useRef<HTMLInputElement | null>(null);
+    const tipoRef = useRef<HTMLSelectElement | null>(null);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false); 
-    const pessoaRef = useRef<PessoaResponse | null>(null);
-    const categoriaRef = useRef<CategoriaResponse>(null);
-    const valorRef = useRef(null); 
-    const tipoRef = useRef(null);
 
     useEffect(() => {
         carregarTransacoes();
@@ -27,23 +28,22 @@ export default function Transacao() {
         setLoading(false);
     }
  
-    function selecionarPessoa(pessoa: PessoaResponse) {
-        pessoaRef.current = pessoa;
-    } 
-
-    function selecionarCategoria(categoria: CategoriaResponse) {
-        categoriaRef.current = categoria;
+    function selecionarPessoa(pessoaSelecionada: PessoaResponse) { 
+        setPessoaId(pessoaSelecionada.id);
     }
-  
+
+    function selecionarCategoria(categoriaSelecionada: CategoriaResponse) {
+        setCategoriaId(categoriaSelecionada.id);
+    }
+
     async function salvarTransacao() {
-        const pessoaId = pessoaRef.current?.id;
-        const categoriaId = categoriaRef.current?.id;
-        const valor = Number(valorRef.current);
-        const tipo = Number(tipoRef.current);
+
+        const valor = Number(valorRef.current?.value.trim());
+        const tipo = Number(tipoRef.current?.value.trim());
 
         const transacao: TransacaoRequest = {
-            pessoa: { id: pessoaId! },
-            categoria: { id: categoriaId! },
+            pessoaId:  pessoaId! ,
+            categoriaId: categoriaId! ,
             valor: valor,
             tipo: tipo
         }
@@ -58,8 +58,10 @@ export default function Transacao() {
         }
 
         const response = await TransacaoService.create(transacao); 
+        console.log();
 
-        if (!response?.id) {
+
+        if (response?.id === undefined ) {
             const data: { error?: string } = response;
             toast.warning(data?.error || "Erro ao salvar transação", {
                 style: { background: "#ffc107", color: "#000" },
@@ -72,8 +74,8 @@ export default function Transacao() {
         setShowModal(false);
         valorRef.current = null;
         tipoRef.current = null;
-        pessoaRef.current = null;
-        categoriaRef.current = null;
+        setPessoaId(null);
+        setCategoriaId(null);
 
         toast.success("Transação cadastrada com Sucesso!", {
             style: { background: "#228B22", color: "#000000" },
@@ -123,11 +125,11 @@ export default function Transacao() {
                       <div className="modal-body">
                           <div className="mb-3">
                               <label className="form-label">Pessoa *</label>
-                              <SelectPessoa onChange={(option) => { option?.value, option?.label }}/>
+                              <SelectPessoa onChange={(option) => setPessoaId(option?.value ?? "")} />
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Categoria *</label>
-                              <SelectCategoria onChange={(option) => { option?.value, option?.label }}/>
+                              <SelectCategoria onChange={(option) => setCategoriaId(option?.value ?? "")} />
                           </div>
                           <div className="mb-3">
                               <label className="form-label">Valor *</label>

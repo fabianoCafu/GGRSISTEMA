@@ -6,7 +6,7 @@ export const TransacaoService = {
         const response = await fetch(`${BASE_URLS.Transacao}/Transacao/list`, { method: "GET" });
         return response.json();
     },
-
+    
     async create(transacao: TransacaoRequest) { 
         const response = await fetch(`${BASE_URLS.Transacao}/Transacao/create`,
         {

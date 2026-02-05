@@ -1,5 +1,6 @@
 ﻿import AsyncSelect from "react-select/async";
 import { SelectProps , OptionType, Pessoa } from "../interface/types";
+import { BASE_URLS } from '../config/api.config';
 
 export function SelectPessoa({ onChange }: SelectProps) {
     const loadOptions = async (
@@ -10,21 +11,15 @@ export function SelectPessoa({ onChange }: SelectProps) {
         }
 
         try {
-        const response = await fetch(
-            `https://localhost:7070/api/v1/Pessoa/getbyname?nomePessoa=${encodeURIComponent(
-            inputValue)}`
-        );
+            const response = await fetch(`${BASE_URLS.Pessoa}/Pessoa/getbyname?nomePessoa=${encodeURIComponent(inputValue)}`);
 
-        if (!response.ok) {
-            throw new Error("Erro ao buscar pessoas");
-        }
+            if (!response.ok) {
+                throw new Error("Erro ao buscar pessoas");
+            }
 
-        const data: Pessoa[] = await response.json();
+            const data: Pessoa[] = await response.json();
+            return data.map((pessoa) => ({ value: pessoa.id, label: pessoa.nome}));
 
-        return data.map((pessoa) => ({
-            value: pessoa.id,
-            label: pessoa.nome,
-        }));
         } catch (error) {
             console.error("Erro no SelectPessoa:", error);
             return [];

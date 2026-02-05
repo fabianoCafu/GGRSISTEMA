@@ -9,8 +9,8 @@ namespace GR.Shared.Infra.DTO
         [DefaultValue(0)]
         public TipoTransacao Tipo { get; set; }
         [DefaultValue("00000000-0000-0000-0000-000000000000")]
-        public Guid PessoaId { get; init; } 
+        public Guid PessoaId { get; set; /*init*/ } 
         [DefaultValue("00000000-0000-0000-0000-000000000000")]
-        public Guid CategoriaId { get; init; }
+        public Guid CategoriaId { get; set; /*init*/ }
     }
 }

@@ -6,11 +6,11 @@ import  {Column , PessoaRequest, PessoaResponse} from "../../interface/types";
 import { PessoaService } from "../../api/PessoaService";
 
 export default function Pessoa() {
-    const [pessoas, setPessoas] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false);
+    const [pessoas, setPessoas] = useState([]); 
     const nomeRef = useRef<HTMLInputElement | null>(null);
     const idadeRef = useRef<HTMLInputElement | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
        carregarPessoas();
@@ -52,7 +52,7 @@ export default function Pessoa() {
 
         const response = await PessoaService.create(pessoa); 
 
-        if (!response?.id) {
+        if (response?.id === "") {
             const data: { error?: string } = response;
             toast.warning(data?.error || "Erro ao salvar Pessoa", {
                 style: { background: "#ffc107", color: "#000" },
@@ -74,7 +74,7 @@ export default function Pessoa() {
         carregarPessoas();
    }
 
-    async function removerPessoa(pessoa: { id: number; nome: string}) {
+    async function removerPessoa(pessoa: { id: string; nome: string}) {
         const result = await Swal.fire({
             title: "Tem certeza?",
             text: `Remover ${pessoa.nome}?`,
@@ -105,7 +105,7 @@ export default function Pessoa() {
         { header: "Nome", accessor: "nome"},
         { header: "Idade", accessor: "idade"},
         { header: "Ações",
-            render: (_: any, row: { id: number; nome: string }) => ( 
+            render: (_: any, row: { id: string; nome: string }) => ( 
               <div className="d-flex justify-content-center gap-2"> 
                 <button className="btn btn-danger btn-sm" onClick={() => removerPessoa(row)} style={{ padding: '3px 8px', fontSize: '13px' }}>
                   Remover
