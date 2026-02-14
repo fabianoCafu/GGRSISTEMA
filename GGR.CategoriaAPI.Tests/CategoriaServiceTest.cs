@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using GR.CategoriaAPI.Service;
-using GR.Shared.Infra.DTO;
-using GR.Shared.Infra.Model;
-using GR.Shared.Infra.Repository;
+using GGR.CategoriaAPI.Service;
+using GGR.Shared.Infra.DTO;
+using GGR.Shared.Infra.Model;
+using GGR.Shared.Infra.Repository;
 using Moq;
-using System.Collections.Generic;
 using Xunit;
 using static Shared.Aplication.Enum.Enums;
 using static Shared.Result.ResultMessage;

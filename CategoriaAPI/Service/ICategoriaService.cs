@@ -1,7 +1,7 @@
-﻿using GR.Shared.Infra.DTO;
+﻿using GGR.Shared.Infra.DTO;
 using static Shared.Result.ResultMessage;
 
-namespace GR.CategoriaAPI.Service
+namespace GGR.CategoriaAPI.Service
 {
     public interface ICategoriaService
     {

@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ggr-database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: adm123
+      MYSQL_DATABASE: GGRDataBase
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+
+
+
+
+
+# services:
+#   api-pessoas:
+#     build: ./api-pessoas
+#     container_name: api-pessoas
+#     ports:
+#       - "7071:8080"
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+
+#   api-categorias:
+#     build: ./api-categorias
+#     container_name: api-categorias
+#     ports:
+#       - "7072:8080"
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+
+#   api-transacoes:
+#     build: ./api-transacoes
+#     container_name: api-transacoes
+#     ports:
+#       - "7073:8080"
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+
+#   frontend:
+#     build: ./frontend
+#     container_name: frontend
+#     ports:
+#       - "3000:80"
+#     depends_on:
+#       - api-pessoas
+#       - api-categorias
+#       - api-transacoes

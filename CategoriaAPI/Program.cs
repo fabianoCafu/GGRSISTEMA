@@ -1,8 +1,8 @@
 using AutoMapper;
-using GR.CategoriaAPI.Service;
-using GR.Shared.Infra.ConfigMapper;
-using GR.Shared.Infra.Data;
-using GR.Shared.Infra.Repository;
+using GGR.CategoriaAPI.Service;
+using GGR.Shared.Infra.ConfigMapper;
+using GGR.Shared.Infra.Data;
+using GGR.Shared.Infra.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MySQLContext>(options =>
 {
     var connection = builder.Configuration.GetConnectionString("MySQLConnectionString");
-    options.UseMySql(connection, ServerVersion.AutoDetect(connection), b => b.MigrationsAssembly("GR.Shared.Infra"));
+    options.UseMySql(connection, ServerVersion.AutoDetect(connection), b => b.MigrationsAssembly("GGR.Shared.Infra"));
 });
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();

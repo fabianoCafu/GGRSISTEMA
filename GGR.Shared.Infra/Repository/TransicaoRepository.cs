@@ -1,11 +1,11 @@
-﻿using GR.Shared.Infra.Data;
-using GR.Shared.Infra.DTO;
-using GR.Shared.Infra.Model;
+﻿using GGR.Shared.Infra.Data;
+using GGR.Shared.Infra.DTO;
+using GGR.Shared.Infra.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static Shared.Result.ResultMessage;
 
-namespace GR.Shared.Infra.Repository
+namespace GGR.Shared.Infra.Repository
 {
     public class TransicaoRepository : ITransacaoRepository
     {

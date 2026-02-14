@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace GR.Shared.Infra.Migrations
+namespace GGR.Shared.Infra.Migrations
 {
     public partial class CreateGGRDataBase : Migration
     {

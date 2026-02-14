@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using GR.Shared.Infra.DTO;
-using GR.Shared.Infra.Model;
+using GGR.Shared.Infra.DTO;
+using GGR.Shared.Infra.Model;
 
-namespace GR.Shared.Infra.ConfigMapper
+namespace GGR.Shared.Infra.ConfigMapper
 {
     public class MappingConfig
     {

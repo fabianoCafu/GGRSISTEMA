@@ -1,4 +1,4 @@
-﻿namespace GR.Shared.Infra.Model
+﻿namespace GGR.Shared.Infra.Model
 {
     public class Pessoa
     {

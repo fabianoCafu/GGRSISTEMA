@@ -1,7 +1,7 @@
-﻿using GR.Shared.Infra.Model;
+﻿using GGR.Shared.Infra.Model;
 using static Shared.Result.ResultMessage;
 
-namespace GR.Shared.Infra.Repository
+namespace GGR.Shared.Infra.Repository
 {
     public interface ICategoriaRepository
     {

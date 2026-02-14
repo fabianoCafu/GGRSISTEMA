@@ -1,6 +1,6 @@
-﻿using GR.TransacaoAPI.Controllers;
-using GR.TransacaoAPI.Service;
-using GR.Shared.Infra.DTO;
+﻿using GGR.TransacaoAPI.Controllers;
+using GGR.TransacaoAPI.Service;
+using GGR.Shared.Infra.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

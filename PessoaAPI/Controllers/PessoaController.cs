@@ -1,9 +1,9 @@
-﻿using GR.PessoaAPI.Service;
-using GR.Shared.Infra.DTO;
+﻿using GGR.PessoaAPI.Service;
+using GGR.Shared.Infra.DTO;
 using Microsoft.AspNetCore.Mvc;
 using static Shared.Result.ResultMessage;
 
-namespace GR.PessoaAPI.Controllers
+namespace GGR.PessoaAPI.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]

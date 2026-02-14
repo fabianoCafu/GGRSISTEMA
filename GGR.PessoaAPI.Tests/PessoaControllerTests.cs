@@ -1,6 +1,6 @@
-using GR.PessoaAPI.Controllers;
-using GR.PessoaAPI.Service;
-using GR.Shared.Infra.DTO;
+using GGR.PessoaAPI.Controllers;
+using GGR.PessoaAPI.Service;
+using GGR.Shared.Infra.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

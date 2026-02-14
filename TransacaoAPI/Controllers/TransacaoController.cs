@@ -1,9 +1,9 @@
-﻿using GR.Shared.Infra.DTO;
-using GR.TransacaoAPI.Service;
+﻿using GGR.Shared.Infra.DTO;
+using GGR.TransacaoAPI.Service;
 using Microsoft.AspNetCore.Mvc;
 using static Shared.Result.ResultMessage;
 
-namespace GR.TransacaoAPI.Controllers
+namespace GGR.TransacaoAPI.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]

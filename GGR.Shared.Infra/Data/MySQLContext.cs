@@ -1,7 +1,7 @@
-﻿using GR.Shared.Infra.Model;
+﻿using GGR.Shared.Infra.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace GR.Shared.Infra.Data
+namespace GGR.Shared.Infra.Data
 {
     public class MySQLContext : DbContext
     {

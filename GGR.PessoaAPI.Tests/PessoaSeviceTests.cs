@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using GR.PessoaAPI.Service;
-using GR.Shared.Infra.DTO;
-using GR.Shared.Infra.Model;
-using GR.Shared.Infra.Repository;
+using GGR.PessoaAPI.Service;
+using GGR.Shared.Infra.DTO;
+using GGR.Shared.Infra.Model;
+using GGR.Shared.Infra.Repository;
 using Moq;
 using Xunit;
 using static Shared.Result.ResultMessage;

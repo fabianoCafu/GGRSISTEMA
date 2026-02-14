@@ -1,6 +1,6 @@
-﻿using GR.CategoriaAPI.Controllers;
-using GR.CategoriaAPI.Service;
-using GR.Shared.Infra.DTO;
+﻿using GGR.CategoriaAPI.Controllers;
+using GGR.CategoriaAPI.Service;
+using GGR.Shared.Infra.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

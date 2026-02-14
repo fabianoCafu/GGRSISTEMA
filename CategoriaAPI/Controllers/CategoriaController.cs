@@ -1,9 +1,9 @@
-﻿using GR.CategoriaAPI.Service;
-using GR.Shared.Infra.DTO;
+﻿using GGR.CategoriaAPI.Service;
+using GGR.Shared.Infra.DTO;
 using Microsoft.AspNetCore.Mvc;
 using static Shared.Result.ResultMessage;
 
-namespace GR.CategoriaAPI.Controllers
+namespace GGR.CategoriaAPI.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]

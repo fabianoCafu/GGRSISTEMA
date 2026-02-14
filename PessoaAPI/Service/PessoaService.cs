@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using GR.Shared.Infra.DTO;
-using GR.Shared.Infra.Model;
-using GR.Shared.Infra.Repository;
+using GGR.Shared.Infra.DTO;
+using GGR.Shared.Infra.Model;
+using GGR.Shared.Infra.Repository;
 using static Shared.Result.ResultMessage;
 
-namespace GR.PessoaAPI.Service
+namespace GGR.PessoaAPI.Service
 {
     public class PessoaService : IPessoaService
     {

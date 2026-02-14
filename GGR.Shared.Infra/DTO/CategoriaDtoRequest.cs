@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static Shared.Aplication.Enum.Enums;
 
-namespace GR.Shared.Infra.DTO
+namespace GGR.Shared.Infra.DTO
 {
     public class CategoriaDtoRequest
     {

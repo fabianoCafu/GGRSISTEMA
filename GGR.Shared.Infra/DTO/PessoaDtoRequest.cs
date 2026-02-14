@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GR.Shared.Infra.DTO
+namespace GGR.Shared.Infra.DTO
 {
     public class PessoaDtoRequest
     {
