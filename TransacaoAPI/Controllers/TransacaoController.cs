@@ -1,7 +1,6 @@
 ﻿using GGR.Shared.Infra.DTO;
 using GGR.TransacaoAPI.Service;
 using Microsoft.AspNetCore.Mvc;
-using static Shared.Result.ResultMessage;
 
 namespace GGR.TransacaoAPI.Controllers
 {
@@ -17,7 +16,7 @@ namespace GGR.TransacaoAPI.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<Result<TransacaoDtoRequest>>> Create([FromBody] TransacaoDtoRequest transacaoDtoRequest)
+        public async Task<ActionResult<TransacaoDtoRequest>> Create([FromBody] TransacaoDtoRequest transacaoDtoRequest)
         {
             try
             {
@@ -62,7 +61,7 @@ namespace GGR.TransacaoAPI.Controllers
         }
 
         [HttpGet("getnetbalanceperson")]
-        public async Task<ActionResult<Result<List<SaldoLiquidoDtoResponse>>>> GetNetBalancePerson()
+        public async Task<ActionResult<List<SaldoLiquidoDtoResponse>>> GetNetBalancePerson()
         {
             try
             {
@@ -82,7 +81,7 @@ namespace GGR.TransacaoAPI.Controllers
         }
 
         [HttpGet("getnetbalancecategory")]
-        public async Task<ActionResult<Result<List<SaldoLiquidoDtoResponse>>>> GetNetBalanceCategory()
+        public async Task<ActionResult<List<SaldoLiquidoDtoResponse>>> GetNetBalanceCategory()
         {
             try
             {

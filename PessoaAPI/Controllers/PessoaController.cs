@@ -1,7 +1,6 @@
 ﻿using GGR.PessoaAPI.Service;
 using GGR.Shared.Infra.DTO;
 using Microsoft.AspNetCore.Mvc;
-using static Shared.Result.ResultMessage;
 
 namespace GGR.PessoaAPI.Controllers
 {
@@ -17,7 +16,7 @@ namespace GGR.PessoaAPI.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<Result<PessoaDtoRequest>>> Create([FromBody] PessoaDtoRequest pessoaDtoRequest)
+        public async Task<ActionResult<PessoaDtoRequest>> Create([FromBody] PessoaDtoRequest pessoaDtoRequest)
         {
             try
             {

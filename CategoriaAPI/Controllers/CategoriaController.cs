@@ -1,7 +1,6 @@
 ﻿using GGR.CategoriaAPI.Service;
 using GGR.Shared.Infra.DTO;
 using Microsoft.AspNetCore.Mvc;
-using static Shared.Result.ResultMessage;
 
 namespace GGR.CategoriaAPI.Controllers
 {
@@ -17,7 +16,7 @@ namespace GGR.CategoriaAPI.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<Result<CategoriaDtoRequest>>> Create([FromBody] CategoriaDtoRequest categoriaDtoRequest)
+        public async Task<ActionResult<CategoriaDtoRequest>> Create([FromBody] CategoriaDtoRequest categoriaDtoRequest)
         {
             try
             {
