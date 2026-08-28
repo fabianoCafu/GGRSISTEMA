@@ -71,9 +71,7 @@ Caso se sinta à vontade, pode-se implementar recursos adicionais desde que os m
  - Injeção de Dependência
  - Result Pattern
 
-* Migration
-dotnet ef migrations add CreateGGRDataBase --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
-dotnet ef database update --pastaRaizdoProjeto .\GGR.Shared.Infra\GGR.Shared.Infra.csproj --startup-project .\CategoriaAPI\GGR.CategoriaAPI.csproj
+
 
 
 
